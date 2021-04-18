@@ -26,6 +26,9 @@ int fadeAmount = 5;    // how many points to fade the LED by
 void setup() {
     // declare pin to be an output:
     pinMode(led, OUTPUT);
+    Serial.begin(9600);
+    while (!Serial);
+    sleep(1000);
 }
 
 // the loop routine runs over and over again forever:
