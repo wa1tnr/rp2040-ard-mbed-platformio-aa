@@ -30,6 +30,9 @@ void setup() {
     while (!Serial);
     delay(5500);
     Serial.println("Hello from Arduino side RP2040 foo!");
+    Serial.println("Reflash in 20 seconds.");
+
+    // reflash
 }
 
 // the loop routine runs over and over again forever:
