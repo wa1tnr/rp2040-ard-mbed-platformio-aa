@@ -28,7 +28,8 @@ void setup() {
     pinMode(led, OUTPUT);
     Serial.begin(9600);
     while (!Serial);
-    sleep(1000);
+    delay(5500);
+    Serial.println("Hello from Arduino side RP2040 foo!");
 }
 
 // the loop routine runs over and over again forever:
