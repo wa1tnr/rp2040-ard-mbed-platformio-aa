@@ -1,12 +1,14 @@
-// ITC-Forth.ino
-// Mon Apr 19 18:16:22 UTC 2021
+// forth-aa_SKETCH.cpp
+// Mon Apr 19 20:11:47 UTC 2021
+
+// was: ITC-Forth.ino
 
 /*
    from: https://github.com/CharleyShattuck/Steno-Keyboard-Arduino.git
 */
 
-#include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.9f"
+#include <Arduino.h>
+#define REVISION_ITCF "0.1.0-b.0"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
