@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.0"
+#define REVISION_ITCF "0.1.0-a.1"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -44,19 +44,23 @@ next:
   }
 }
 
-void await_serial(void) { }
+void await_serial(void) {
+  while(!Serial); // kludge
+  delay(4000);
+  Serial.print("Rev. ");
+  Serial.println(REVISION_ITCF);
+}
 
 void pre_serial(void) {
-  while(!Serial) { await_serial(); }
+  while(!Serial) {
+    await_serial();
+  }
 }
 
 void setup () {
   Serial.begin (9600);
   pre_serial();
   // temporary:
-  delay(4000);
-  Serial.print("Rev. ");
-  Serial.println(REVISION_ITCF);
   // :temporary
   I = 0;
   S = S0;
