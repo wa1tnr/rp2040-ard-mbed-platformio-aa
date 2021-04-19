@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.3"
+#define REVISION_ITCF "0.1.0-a.4"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -65,12 +65,17 @@ void pre_serial(void) {
   }
 }
 
-void hardware_setup(void) { }
+void hardware_setup(void) {
+  pinMode(led, OUTPUT);
+  digitalWrite(led, 1);
+  delay(8000);
+  digitalWrite(led, 0);
+}
 
 void setup () {
-  hardware_setup();
   Serial.begin (9600);
   pre_serial();
+  hardware_setup();
   I = 0;
   S = S0;
   R = R0;
