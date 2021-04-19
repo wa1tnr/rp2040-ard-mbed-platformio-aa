@@ -6,11 +6,14 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.2"
+#define REVISION_ITCF "0.1.0-a.3"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
 #define R0 0x0f00
+
+// hardwara GPIO
+int led = LED_BUILTIN;
 
 // "registers"
 int S = S0; // data stack pointer
@@ -62,7 +65,10 @@ void pre_serial(void) {
   }
 }
 
+void hardware_setup(void) { }
+
 void setup () {
+  hardware_setup();
   Serial.begin (9600);
   pre_serial();
   I = 0;
