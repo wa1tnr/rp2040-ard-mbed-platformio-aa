@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.8"
+#define REVISION_ITCF "0.1.0-a.9f"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -23,7 +23,7 @@ int R = R0; // return stack pointer
 int I = 0; // instruction pointer
 int W = 0; // working register
 
-int reflash_timeout = 11; // seconds
+int reflash_timeout = 7; // seconds
 
 const int memory [] {
   1, // print A
@@ -57,13 +57,17 @@ next:
 }
 
 void blink (void) {
-  // get LED blinking
+  digitalWrite(led, 1);
+  delay(55);
+  // digitalWrite(led, 0);
 }
 
 void await_serial(void) {
-  while(!Serial); // kludge
-  blink ();
-  delay(4000);
+  while(!Serial) {
+    blink ();
+    digitalWrite(led, 0);
+    delay(4000);
+  }
   Serial.print("Rev. ");
   Serial.println(REVISION_ITCF);
 }
@@ -76,9 +80,9 @@ void pre_serial(void) {
 
 void hardware_setup(void) {
   pinMode(led, OUTPUT);
-  digitalWrite(led, 1);
-  delay(8000);
-  digitalWrite(led, 0);
+  // digitalWrite(led, 1);
+  // delay(8000);
+  // digitalWrite(led, 0);
 }
 
 void reflash(void) { // too early?
@@ -88,8 +92,8 @@ void reflash(void) { // too early?
 
 void setup () {
   Serial.begin (9600);
-  pre_serial();
   hardware_setup();
+  pre_serial();
   I = 0;
   S = S0;
   R = R0;
