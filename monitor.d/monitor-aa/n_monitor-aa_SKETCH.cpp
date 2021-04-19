@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.3"
+#define REVISION_ITCF "0.1.0-c.4"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -33,8 +33,10 @@ const int memory [] {
   1, // print A
   2, // delay 1 sec
   3, // do something new
-  4, // nop
-  5, // branch
+  4, // nop a
+  5, // nop b
+  6, // nop c
+  7, // branch
   0, // to this address
 };
 
@@ -107,12 +109,26 @@ next:
       if ((ch > 31) && (ch < 127)) Serial.write(ch);
       Serial.write('.'); // 'B'
       goto next;
+
     case 4:
     _nop_a:
       nopp();
       Serial.print("  NOP-A  ");
       goto next;
+
     case 5:
+    _nop_b:
+      nopp();
+      Serial.print("  NOP-B  ");
+      goto next;
+
+    case 6:
+    _nop_c:
+      nopp();
+      Serial.print("  NOP-C  ");
+      goto next;
+
+    case 7:
     branch:
       I = memory [I];
       if (reflash_timeout == 0) return;
