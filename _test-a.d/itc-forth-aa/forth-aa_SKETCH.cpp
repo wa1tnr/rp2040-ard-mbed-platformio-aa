@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.6"
+#define REVISION_ITCF "0.1.0-a.7"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -23,6 +23,8 @@ int R = R0; // return stack pointer
 int I = 0; // instruction pointer
 int W = 0; // working register
 
+int reflash_timeout = 11; // seconds
+
 const int memory [] {
   1, // print A
   2, // delay 1 sec
@@ -36,6 +38,7 @@ next:
   switch (W) {
     case 1:
     A:
+      reflash_timeout--;
       Serial.write ('A');
       goto next;
     case 2:
@@ -45,6 +48,10 @@ next:
     case 3:
     branch:
       I = memory [I];
+      Serial.print("DEBUG: reflash_timeout is: ");
+      Serial.print(reflash_timeout);
+      Serial.print("  ");
+      if (reflash_timeout == 0) return;
       goto next;
   }
 }
