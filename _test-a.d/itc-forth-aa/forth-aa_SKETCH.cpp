@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.7"
+#define REVISION_ITCF "0.1.0-a.8"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -48,9 +48,9 @@ next:
     case 3:
     branch:
       I = memory [I];
-      Serial.print("DEBUG: reflash_timeout is: ");
-      Serial.print(reflash_timeout);
-      Serial.print("  ");
+      // Serial.print("DEBUG: reflash_timeout is: ");
+      // Serial.print(reflash_timeout);
+      // Serial.print("  ");
       if (reflash_timeout == 0) return;
       goto next;
   }
