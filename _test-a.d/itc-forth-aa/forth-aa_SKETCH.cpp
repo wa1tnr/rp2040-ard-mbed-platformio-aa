@@ -50,9 +50,6 @@ next:
     case 3:
     branch:
       I = memory [I];
-      // Serial.print("DEBUG: reflash_timeout is: ");
-      // Serial.print(reflash_timeout);
-      // Serial.print("  ");
       if (reflash_timeout == 0) return;
       goto next;
   }
@@ -61,7 +58,6 @@ next:
 void blink (void) {
   digitalWrite(led, 1);
   delay(55);
-  // digitalWrite(led, 0);
 }
 
 void await_serial(void) {
@@ -82,13 +78,9 @@ void pre_serial(void) {
 
 void hardware_setup(void) {
   pinMode(led, OUTPUT);
-  // digitalWrite(led, 1);
-  // delay(8000);
-  // digitalWrite(led, 0);
 }
 
 void reflash(void) { // too early?
-  // statements
   reflash_firmware();
 }
 
