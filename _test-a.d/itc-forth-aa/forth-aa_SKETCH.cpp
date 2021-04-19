@@ -1,7 +1,5 @@
 // ITC-Forth.ino
-// Mon Apr 19 17:25:39 UTC 2021
-
-//    TESTED locally - runs unmodified, no need to #include anything at all.
+// Mon Apr 19 18:16:22 UTC 2021
 
 /*
    from: https://github.com/CharleyShattuck/Steno-Keyboard-Arduino.git
@@ -45,8 +43,13 @@ next:
   }
 }
 
+void pre_serial(void) {
+  while(!Serial);
+}
+
 void setup () {
   Serial.begin (9600);
+  pre_serial();
   I = 0;
   S = S0;
   R = R0;
