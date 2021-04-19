@@ -8,7 +8,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-b.0"
+#define REVISION_ITCF "0.1.0-b.1"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -64,9 +64,20 @@ void full_blank(void) {
   digitalWrite(led, 0);
 }
 
+void fast_blank(void) {
+  int counter = 3;
+  do {
+    if (Serial) return;
+    delay(30);
+    counter--;
+  } while (counter > 0);
+  full_blank();
+}
+
 void await_serial(void) {
   while(!Serial) {
     blink ();
+    if(!Serial) fast_blank();
     full_blank();
     delay(4000);
   }
