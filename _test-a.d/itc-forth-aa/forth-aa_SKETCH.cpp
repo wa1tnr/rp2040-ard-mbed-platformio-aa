@@ -8,7 +8,8 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-b.1"
+#define REVISION_ITCF "0.1.0-b.2"
+#define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -55,20 +56,21 @@ next:
   }
 }
 
-void blink (void) {
-  digitalWrite(led, 1);
-  delay(55);
-}
-
 void full_blank(void) {
   digitalWrite(led, 0);
 }
 
+void blink (void) {
+  digitalWrite(led, 1);
+  delay(55);
+  full_blank();
+}
+
 void fast_blank(void) {
-  int counter = 3;
+  int counter = SLOW_WAIT_AA;
   do {
     if (Serial) return;
-    delay(30);
+    delay(50);
     counter--;
   } while (counter > 0);
   full_blank();
@@ -79,7 +81,6 @@ void await_serial(void) {
     blink ();
     if(!Serial) fast_blank();
     full_blank();
-    delay(4000);
   }
   Serial.print("Rev. ");
   Serial.println(REVISION_ITCF);
