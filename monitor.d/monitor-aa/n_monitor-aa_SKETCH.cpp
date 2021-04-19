@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.1"
+#define REVISION_ITCF "0.1.0-c.3"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -27,12 +27,14 @@ int R = R0; // return stack pointer
 int I = 0; // instruction pointer
 int W = 0; // working register
 
-int reflash_timeout = 7; // seconds
+int reflash_timeout = 27; // seconds
 
 const int memory [] {
   1, // print A
   2, // delay 1 sec
-  3, // branch
+  3, // do something new
+  4, // nop
+  5, // branch
   0, // to this address
 };
 
@@ -80,20 +82,37 @@ void reflash(void) {
   reflash_firmware();
 }
 
+void nopp(void) { } // no operation
+
 void runForth () {
+char ch;
+// = '\000';
 next:
   W = memory [I++];
   switch (W) {
     case 1:
     A:
       reflash_timeout--;
-      Serial.write ('A');
+      Serial.write ('.'); // 'A'
       goto next;
     case 2:
     _delay:
       delay (1000);
       goto next;
     case 3:
+    _sm_new:
+      delay(7);
+      ch = '\000';
+      if (Serial.available() > 0) ch = Serial.read();
+      if ((ch > 31) && (ch < 127)) Serial.write(ch);
+      Serial.write('.'); // 'B'
+      goto next;
+    case 4:
+    _nop_a:
+      nopp();
+      Serial.print("  NOP-A  ");
+      goto next;
+    case 5:
     branch:
       I = memory [I];
       if (reflash_timeout == 0) return;
