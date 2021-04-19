@@ -60,10 +60,14 @@ void blink (void) {
   delay(55);
 }
 
+void full_blank(void) {
+  digitalWrite(led, 0);
+}
+
 void await_serial(void) {
   while(!Serial) {
     blink ();
-    digitalWrite(led, 0);
+    full_blank();
     delay(4000);
   }
   Serial.print("Rev. ");
@@ -80,7 +84,7 @@ void hardware_setup(void) {
   pinMode(led, OUTPUT);
 }
 
-void reflash(void) { // too early?
+void reflash(void) {
   reflash_firmware();
 }
 
@@ -91,7 +95,7 @@ void setup () {
   I = 0;
   S = S0;
   R = R0;
-  runForth ();
+  runForth (); // loop; not easily escaped
   reflash();
 }
 
