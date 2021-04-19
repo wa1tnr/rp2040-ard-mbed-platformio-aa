@@ -6,7 +6,7 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.1"
+#define REVISION_ITCF "0.1.0-a.2"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -44,8 +44,13 @@ next:
   }
 }
 
+void blink (void) {
+  // get LED blinking
+}
+
 void await_serial(void) {
   while(!Serial); // kludge
+  blink ();
   delay(4000);
   Serial.print("Rev. ");
   Serial.println(REVISION_ITCF);
@@ -60,8 +65,6 @@ void pre_serial(void) {
 void setup () {
   Serial.begin (9600);
   pre_serial();
-  // temporary:
-  // :temporary
   I = 0;
   S = S0;
   R = R0;
