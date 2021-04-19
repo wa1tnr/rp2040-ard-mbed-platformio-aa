@@ -6,11 +6,13 @@
 */
 
 #include <Arduino.h> // mandatory for empty .ino file
-#define REVISION_ITCF "0.1.0-a.5"
+#define REVISION_ITCF "0.1.0-a.6"
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
 #define R0 0x0f00
+
+extern void reflash_firmware(void); // prototype
 
 // hardwara GPIO
 int led = LED_BUILTIN;
@@ -74,6 +76,7 @@ void hardware_setup(void) {
 
 void reflash(void) { // too early?
   // statements
+  reflash_firmware();
 }
 
 void setup () {
