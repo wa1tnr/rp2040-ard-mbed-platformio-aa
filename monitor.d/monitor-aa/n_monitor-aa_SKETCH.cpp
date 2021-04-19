@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.4"
+#define REVISION_ITCF "0.1.0-c.5"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -27,7 +27,7 @@ int R = R0; // return stack pointer
 int I = 0; // instruction pointer
 int W = 0; // working register
 
-int reflash_timeout = 27; // seconds
+int reflash_timeout = 611; // seconds
 
 const int memory [] {
   1, // print A
@@ -66,6 +66,7 @@ void await_serial(void) {
     if(!Serial) fast_blank();
     full_blank();
   }
+  Serial.print("Press ESC to initiate a reflash.   ");
   Serial.print("Rev. ");
   Serial.println(REVISION_ITCF);
 }
@@ -131,7 +132,7 @@ next:
     case 7:
     branch:
       I = memory [I];
-      if (reflash_timeout == 0) return;
+      if ((reflash_timeout == 0) || (ch == '\033')) return;
       goto next;
   }
 }
