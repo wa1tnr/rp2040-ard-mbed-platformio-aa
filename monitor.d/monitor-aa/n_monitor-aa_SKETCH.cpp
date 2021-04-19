@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.0"
+#define REVISION_ITCF "0.1.0-c.1"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -35,27 +35,6 @@ const int memory [] {
   3, // branch
   0, // to this address
 };
-
-void runForth () {
-next:
-  W = memory [I++];
-  switch (W) {
-    case 1:
-    A:
-      reflash_timeout--;
-      Serial.write ('A');
-      goto next;
-    case 2:
-    _delay:
-      delay (1000);
-      goto next;
-    case 3:
-    branch:
-      I = memory [I];
-      if (reflash_timeout == 0) return;
-      goto next;
-  }
-}
 
 void full_blank(void) {
   digitalWrite(led, 0);
@@ -99,6 +78,27 @@ void hardware_setup(void) {
 
 void reflash(void) {
   reflash_firmware();
+}
+
+void runForth () {
+next:
+  W = memory [I++];
+  switch (W) {
+    case 1:
+    A:
+      reflash_timeout--;
+      Serial.write ('A');
+      goto next;
+    case 2:
+    _delay:
+      delay (1000);
+      goto next;
+    case 3:
+    branch:
+      I = memory [I];
+      if (reflash_timeout == 0) return;
+      goto next;
+  }
 }
 
 void setup () {
