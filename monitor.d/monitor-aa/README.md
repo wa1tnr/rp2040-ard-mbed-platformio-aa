@@ -1,5 +1,9 @@
 Mon Apr 19 21:38:41 UTC 2021
 
+Designed for and tested on Adafruit Feather RP2040.
+
+Likely to work on ItsyBitsy RP2040 without modification.
+
   monitor-aa.ino - empty sketch
   n_monitor-aa_SKETCH.cpp - real sketch
   reflash.cpp - reflash routine
