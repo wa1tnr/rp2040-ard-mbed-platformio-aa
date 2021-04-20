@@ -99,7 +99,7 @@ next:
     switch (W) {
         case 1:
 A:
-            reflash_timeout--;
+            // reflash_timeout--; // intent is to rescind the timeout
 #ifdef DEBUG_PRINTS
             Serial.write ('.'); // 'A'
 #endif
