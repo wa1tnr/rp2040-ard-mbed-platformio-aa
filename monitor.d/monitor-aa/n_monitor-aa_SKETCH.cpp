@@ -9,8 +9,10 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.5"
+#define REVISION_ITCF "0.1.0-c.6"
 #define SLOW_WAIT_AA 125
+#define DEBUG_NOP_PRINTS
+#define DEBUG_PRINTS
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
@@ -96,7 +98,9 @@ next:
     case 1:
     A:
       reflash_timeout--;
+#ifdef DEBUG_PRINTS
       Serial.write ('.'); // 'A'
+#endif
       goto next;
     case 2:
     _delay:
@@ -108,25 +112,33 @@ next:
       ch = '\000';
       if (Serial.available() > 0) ch = Serial.read();
       if ((ch > 31) && (ch < 127)) Serial.write(ch);
+#ifdef DEBUG_PRINTS
       Serial.write('.'); // 'B'
+#endif
       goto next;
 
     case 4:
     _nop_a:
       nopp();
+#ifdef DEBUG_NOP_PRINTS
       Serial.print("  NOP-A  ");
+#endif
       goto next;
 
     case 5:
     _nop_b:
       nopp();
+#ifdef DEBUG_NOP_PRINTS
       Serial.print("  NOP-B  ");
+#endif
       goto next;
 
     case 6:
     _nop_c:
       nopp();
+#ifdef DEBUG_NOP_PRINTS
       Serial.print("  NOP-C  ");
+#endif
       goto next;
 
     case 7:
