@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.7"
+#define REVISION_ITCF "0.1.0-c.8"
 #define SLOW_WAIT_AA 125
 #define DEBUG_NOP_PRINTS
 #undef DEBUG_NOP_PRINTS
@@ -113,7 +113,7 @@ next:
       delay(7);
       ch = '\000';
       if (Serial.available() > 0) ch = Serial.read();
-      if ((ch > 31) && (ch < 127)) Serial.write(ch);
+      // if ((ch > 31) && (ch < 127)) Serial.write(ch);
 #ifdef DEBUG_PRINTS
       Serial.write('.'); // 'B'
 #endif
@@ -146,7 +146,13 @@ next:
     case 7:
     branch:
       I = memory [I];
-      if ((reflash_timeout == 0) || (ch == '\033')) return;
+      if ((reflash_timeout == 0)
+          || (ch == '\033')
+        ) return; // ESC
+      if ((ch > 31) && (ch < 127)) Serial.write(ch);
+      if ((ch == '\012')    // 10 decimal 0x0A
+          // || (ch == '\012') // 10 decimal 0x0A
+        ) { Serial.write('\r'); Serial.write('\n'); }
       goto next;
   }
 }
