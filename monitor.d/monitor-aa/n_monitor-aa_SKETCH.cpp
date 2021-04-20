@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.8"
+#define REVISION_ITCF "0.1.0-e.0"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -74,6 +74,7 @@ void await_serial(void) {
 }
 
 void pre_serial(void) {
+    delay(700);
     while (!Serial) {
         await_serial();
     }
