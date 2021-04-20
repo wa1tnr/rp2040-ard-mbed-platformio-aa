@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.3"
+#define REVISION_ITCF "0.1.0-e.4 chevron"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -57,14 +57,15 @@ const int memory [] {
 
 // ^^ so this memory is going to be how/where a 'program' is written.
 
-const int memory [] { 1, 2, 3, 4, 5, 6, 0 }; // is similar to the program already written.
+// const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 8, 1 }; // is similar to the program already written.
+   const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 8, 1 }; // is similar to the program already written.
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
 /* Terminal Input Buffer for interpreter */
 const byte maxtib = 16;
 char tib[maxtib];
-byte pos;
+byte pos = 0;
 
 void full_blank(void) {
     digitalWrite(led, 0);
@@ -128,15 +129,18 @@ next:
     switch (W) {
         case 1:
         _delay:
-            // delay (1000);
+            Serial.print("  Seen branch 1"); delay(20);
+            delay (500);
             goto next;
         case 2: // xt:2
         _read_serial:
+            Serial.print("  Seen branch 2"); delay(20);
             ch = '\000';
             if (Serial.available() > 0) ch = Serial.read();
             goto next;
         case 3:
         _esc_det:
+            Serial.print("  Seen branch 3"); delay(20);
             if (ch != '\033') { if (ch != '\000') { ESC_counter = 0; } }
             if (ch == '\033') {
                 ch = '\000';
@@ -147,19 +151,28 @@ next:
             goto next;
         case 4:
         _do_this_aa:
-            pos = 0;
-            tib[0] = 0;
+            Serial.print("  Seen branch 4"); delay(20);
             goto next;
         case 5:
-        _do_this_bb:
+        _fill_next_tib_byte:
+            Serial.print("  Seen branch 5"); delay(20);
             if ((ch > 31) && (ch < 127)) {
                 Serial.write(ch);
-                if (pos < maxtib) {
+                // DEBUG: Serial.write('\055');
+                if (pos < (maxtib -1)) {
                     tib[pos++] = ch;
-                    tib[pos] = 0;
+                    tib[pos] = '\000';
+                    // DEBUG: Serial.write('\056');
                 }
             }
             if ((ch == '\012')) { // 10 decimal 0x0A
+                Serial.write('\040'); // space
+                Serial.print(tib);
+                Serial.print(" where TIB was printed. ");
+                I++;
+                // I = 7; // hum
+                // Serial.print("Sent to I = 6");
+                // pos = 0; tib[pos] = '\000';
                 print_newline();
             }
             if (ch == '\010') { // backspace
@@ -169,8 +182,27 @@ next:
 
         case 6:
         branch:
+            // Serial.print("encounter branch case 6");
+            I++;
+            Serial.print("  Seen branch 6"); delay(500);
+            if (return_Flag) {
+                Serial.print(tib); Serial.print(" "); Serial.println(" ");
+                Serial.println("That's all folks");
+                return;
+            }
+            goto next;
+
+        case 7:
+        initializer:
+            // I = memory [I];
+            Serial.print("  Seen branch 7"); delay(500);
+            // Serial.print("the great initializer on 7");
+            pos = 0; tib[0] = 0;
+            goto next;
+        case 8:
+        branch_b:
             I = memory [I];
-            if (return_Flag) return;
+            Serial.print("  Seen branch 8"); delay(500);
             goto next;
     }
 }
