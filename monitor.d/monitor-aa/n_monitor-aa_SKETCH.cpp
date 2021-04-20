@@ -1,5 +1,8 @@
 // n_monitor-aa_SKETCH.cpp
-// Tue Apr 20 16:39:44 UTC 2021
+// Tue Apr 20 17:43:09 UTC 2021
+
+// BUG: must press any char besides ESC at least once, to use the ESC function.
+// BUG: FIXED. (Reported and fixed in a single commit).
 
 // was: forth-aa_SKETCH.cpp
 // was: ITC-Forth.ino
@@ -9,7 +12,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.0"
+#define REVISION_ITCF "0.1.0-e.1"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -95,11 +98,9 @@ void print_newline(void) {
     Serial.write('\n');
 }
 
-// new:
-
 void runForth () {
     char ch;
-    int ESC_counter;
+    int ESC_counter = 0;
     bool return_Flag = 0;
 next:
     W = memory [I++];
