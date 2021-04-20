@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.2"
+#define REVISION_ITCF "0.1.0-e.3"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -57,7 +57,14 @@ const int memory [] {
 
 // ^^ so this memory is going to be how/where a 'program' is written.
 
-const int memory [] { 1, 2, 3, 4, 0 }; // is similar to the program already written.
+const int memory [] { 1, 2, 3, 4, 5, 6, 0 }; // is similar to the program already written.
+
+// https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
+
+/* Terminal Input Buffer for interpreter */
+const byte maxtib = 16;
+char tib[maxtib];
+byte pos;
 
 void full_blank(void) {
     digitalWrite(led, 0);
@@ -139,11 +146,18 @@ next:
             }
             goto next;
         case 4:
-        branch:
-            I = memory [I];
-            if (return_Flag) return;
+        _do_this_aa:
+            pos = 0;
+            tib[0] = 0;
+            goto next;
+        case 5:
+        _do_this_bb:
             if ((ch > 31) && (ch < 127)) {
                 Serial.write(ch);
+                if (pos < maxtib) {
+                    tib[pos++] = ch;
+                    tib[pos] = 0;
+                }
             }
             if ((ch == '\012')) { // 10 decimal 0x0A
                 print_newline();
@@ -151,6 +165,12 @@ next:
             if (ch == '\010') { // backspace
                 Serial.write('\010');
             }
+            goto next;
+
+        case 6:
+        branch:
+            I = memory [I];
+            if (return_Flag) return;
             goto next;
     }
 }
