@@ -98,19 +98,19 @@ next:
     W = memory [I++];
     switch (W) {
         case 1:
-A:
+        A:
             // reflash_timeout--; // intent is to rescind the timeout
 #ifdef DEBUG_PRINTS
             Serial.write ('.'); // 'A'
 #endif
             goto next;
         case 2:
-_delay:
+        _delay:
             // delay (1000);
             nopp();
             goto next;
         case 3:
-_sm_new:
+        _sm_new:
             delay(7);
             ch = '\000';
             if (Serial.available() > 0) ch = Serial.read();
@@ -121,7 +121,7 @@ _sm_new:
             goto next;
 
         case 4:
-_nop_a:
+        _nop_a:
             nopp();
 #ifdef DEBUG_NOP_PRINTS
             Serial.print("  NOP-A  ");
@@ -129,7 +129,7 @@ _nop_a:
             goto next;
 
         case 5:
-_nop_b:
+        _nop_b:
             nopp();
 #ifdef DEBUG_NOP_PRINTS
             Serial.print("  NOP-B  ");
@@ -137,7 +137,7 @@ _nop_b:
             goto next;
 
         case 6:
-_nop_c:
+        _nop_c:
             nopp();
 #ifdef DEBUG_NOP_PRINTS
             Serial.print("  NOP-C  ");
@@ -145,7 +145,7 @@ _nop_c:
             goto next;
 
         case 7:
-branch:
+        branch:
             I = memory [I];
             if ((reflash_timeout == 0)
                     || (ch == '\033')
