@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.3"
+#define REVISION_ITCF "0.1.0-d.4"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -137,17 +137,7 @@ next:
                     || (ch == '\033')
                ) return; // ESC
             if ((ch > 31) && (ch < 127)) Serial.write(ch);
-            if ((ch == '\012')) { // 10 decimal 0x0A
-                print_newline();
-            }
-/*
-            if ((ch == '\012')    // 10 decimal 0x0A
-                    // || (ch == '\012') // 10 decimal 0x0A
-               ) {
-                Serial.write('\r');
-                Serial.write('\n');
-            }
-*/
+            if (ch == '\012') print_newline(); // 10 decimal 0x0A
             goto next;
     }
 }
