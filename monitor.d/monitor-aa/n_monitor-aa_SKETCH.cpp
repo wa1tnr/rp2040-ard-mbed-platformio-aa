@@ -9,10 +9,12 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-c.6"
+#define REVISION_ITCF "0.1.0-c.7"
 #define SLOW_WAIT_AA 125
 #define DEBUG_NOP_PRINTS
+#undef DEBUG_NOP_PRINTS
 #define DEBUG_PRINTS
+#undef DEBUG_PRINTS
 
 #define RAM_SIZE 0x1200
 #define S0 0x1000
