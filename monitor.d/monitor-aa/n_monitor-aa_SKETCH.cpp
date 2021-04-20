@@ -1,5 +1,5 @@
 // n_monitor-aa_SKETCH.cpp
-// Mon Apr 19 21:29:48 UTC 2021
+// Tue Apr 20 16:39:44 UTC 2021
 
 // was: forth-aa_SKETCH.cpp
 // was: ITC-Forth.ino
@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.7"
+#define REVISION_ITCF "0.1.0-d.8"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -29,11 +29,13 @@ int W = 0; // working register
 
 int reflash_timeout = 0xCFFF; // a good six minutes here 0xCFFF
 
+// TODO: label these better.  There are 7 instrux, but labels are out of date.
+
 const int memory [] {
-    1, // print A
-    2, // delay 1 sec
-    3, // do something new
-    4, // nop a
+    1, // nop - was print A
+    2, // nop - was delay
+    3, // read serial
+    4, // escape detection
     5, // nop b
     6, // nop c
     7, // branch
@@ -103,22 +105,23 @@ next:
     switch (W) {
         case 1:
         A:
+            // print 'A'
             goto next;
         case 2:
         _delay:
             // delay (1000);
             goto next;
-        case 3:
-        _sm_new:
+        case 3: // xt:3
+        _read_serial:
             ch = '\000';
             if (Serial.available() > 0) ch = Serial.read();
             goto next;
         case 4:
-        _nop_a:
+        _esc_det:
             if (ch != '\033') { if (ch != '\000') { ESC_counter = 0; } }
             if (ch == '\033') {
                 ch = '\000';
-                I--; I--;
+                I--; I--; // relative jump back to xt:3
                 ESC_counter++;
                 if (ESC_counter == 3) return_Flag = -1;
             }
@@ -145,9 +148,6 @@ next:
             goto next;
     }
 }
-
-// old:
-void xxrunForth () { }
 
 void setup () {
     Serial.begin (9600);
