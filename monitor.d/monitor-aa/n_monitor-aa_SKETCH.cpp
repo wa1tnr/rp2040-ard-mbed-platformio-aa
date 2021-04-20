@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.5"
+#define REVISION_ITCF "0.1.0-d.6"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -66,7 +66,7 @@ void await_serial(void) {
         if (!Serial) fast_blank();
         full_blank();
     }
-    Serial.print("Press ESC to initiate a reflash.   ");
+    Serial.print("Press ESC (3x) to initiate a reflash.   ");
     Serial.print("Rev. ");
     Serial.println(REVISION_ITCF);
 }
