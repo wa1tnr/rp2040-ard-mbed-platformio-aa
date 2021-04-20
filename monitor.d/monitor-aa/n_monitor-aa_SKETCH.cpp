@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.4"
+#define REVISION_ITCF "0.1.0-d.5"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -92,7 +92,62 @@ void print_newline(void) {
     Serial.write('\n');
 }
 
+// new:
+
 void runForth () {
+    char ch;
+    int ESC_counter;
+    bool return_Flag = 0;
+next:
+    W = memory [I++];
+    switch (W) {
+        case 1:
+        A:
+            goto next;
+        case 2:
+        _delay:
+            // delay (1000);
+            goto next;
+        case 3:
+        _sm_new:
+            ch = '\000';
+            if (Serial.available() > 0) ch = Serial.read();
+            goto next;
+        case 4:
+        _nop_a:
+            if (ch != '\033') { if (ch != '\000') { ESC_counter = 0; } }
+            if (ch == '\033') {
+                ch = '\000';
+                I--; I--;
+                ESC_counter++;
+                if (ESC_counter == 3) return_Flag = -1;
+            }
+            goto next;
+        case 5:
+        _nop_b:
+            goto next;
+        case 6:
+        _nop_c:
+            goto next;
+        case 7:
+        branch:
+            I = memory [I];
+            if (return_Flag) return;
+            if ((ch > 31) && (ch < 127)) {
+                Serial.write(ch);
+            }
+            if ((ch == '\012')) { // 10 decimal 0x0A
+                print_newline();
+            }
+            if (ch == '\010') { // backspace
+                Serial.write('\010');
+            }
+            goto next;
+    }
+}
+
+// old:
+void xxrunForth () {
     char ch;
     // = '\000';
 next:
