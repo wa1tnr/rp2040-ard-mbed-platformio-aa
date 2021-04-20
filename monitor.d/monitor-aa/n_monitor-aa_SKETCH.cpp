@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.6"
+#define REVISION_ITCF "0.1.0-d.7"
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -147,55 +147,7 @@ next:
 }
 
 // old:
-void xxrunForth () {
-    char ch;
-    // = '\000';
-next:
-    W = memory [I++];
-    switch (W) {
-        case 1:
-        A:
-            // reflash_timeout--; // intent is to rescind the timeout
-            goto next;
-        case 2:
-        _delay:
-            // delay (1000);
-            nopp();
-            goto next;
-        case 3:
-        _sm_new:
-            delay(7);
-            ch = '\000';
-            if (Serial.available() > 0) ch = Serial.read();
-            // if ((ch > 31) && (ch < 127)) Serial.write(ch);
-            goto next;
-
-        case 4:
-        _nop_a:
-            nopp();
-            goto next;
-
-        case 5:
-        _nop_b:
-            nopp();
-            goto next;
-
-        case 6:
-        _nop_c:
-            nopp();
-            goto next;
-
-        case 7:
-        branch:
-            I = memory [I];
-            if ((reflash_timeout == 0)
-                    || (ch == '\033')
-               ) return; // ESC
-            if ((ch > 31) && (ch < 127)) Serial.write(ch);
-            if (ch == '\012') print_newline(); // 10 decimal 0x0A
-            goto next;
-    }
-}
+void xxrunForth () { }
 
 void setup () {
     Serial.begin (9600);
