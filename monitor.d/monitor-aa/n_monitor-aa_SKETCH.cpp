@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-d.0"
+#define REVISION_ITCF "0.1.0-d.1"
 #define SLOW_WAIT_AA 125
 #define DEBUG_NOP_PRINTS
 #undef DEBUG_NOP_PRINTS
@@ -31,7 +31,7 @@ int R = R0; // return stack pointer
 int I = 0; // instruction pointer
 int W = 0; // working register
 
-int reflash_timeout = 611; // seconds
+int reflash_timeout = 0xCFFF; // a good six minutes here 0xCFFF
 
 const int memory [] {
     1, // print A
@@ -106,7 +106,8 @@ A:
             goto next;
         case 2:
 _delay:
-            delay (1000);
+            // delay (1000);
+            nopp();
             goto next;
         case 3:
 _sm_new:
