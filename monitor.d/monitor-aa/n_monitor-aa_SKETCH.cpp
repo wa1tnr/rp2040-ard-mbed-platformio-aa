@@ -1,8 +1,5 @@
 // n_monitor-aa_SKETCH.cpp
-// Tue Apr 20 17:43:09 UTC 2021
-
-// BUG: must press any char besides ESC at least once, to use the ESC function.
-// BUG: FIXED. (Reported and fixed in a single commit).
+// Tue Apr 20 21:05:08 UTC 2021
 
 // was: forth-aa_SKETCH.cpp
 // was: ITC-Forth.ino
@@ -12,7 +9,15 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.1"
+#define REVISION_ITCF "0.1.0-e.2"
+
+#undef ADAFRUIT_ITSY_RP2040_ITCF
+#define ADAFRUIT_ITSY_RP2040_ITCF
+
+#ifndef ADAFRUIT_ITSY_RP2040_ITCF
+    #define UNKNOWN_TARGET_RP2040_ITCF
+#endif
+
 #define SLOW_WAIT_AA 125
 
 #define RAM_SIZE 0x1200
@@ -22,7 +27,14 @@
 extern void reflash_firmware(void); // prototype
 
 // hardwara GPIO
+#ifdef UNKNOWN_TARGET_RP2040_ITCF
+  #undef ADAFRUIT_ITSY_RP2040_ITCF
 int led = LED_BUILTIN;
+#endif
+
+#ifdef ADAFRUIT_ITSY_RP2040_ITCF
+int led = 11;
+#endif
 
 // "registers"
 int S = S0; // data stack pointer
@@ -33,17 +45,19 @@ int W = 0; // working register
 int reflash_timeout = 0xCFFF; // a good six minutes here 0xCFFF
 
 // TODO: label these better.  There are 7 instrux, but labels are out of date.
-
+/*
 const int memory [] {
-    1, // nop - was print A
-    2, // nop - was delay
-    3, // read serial
-    4, // escape detection
-    5, // nop b
-    6, // nop c
-    7, // branch
+    1, // nop - was delay
+    2, // read serial
+    3, // escape detection
+    4, // branch
     0, // to this address
 };
+*/
+
+// ^^ so this memory is going to be how/where a 'program' is written.
+
+const int memory [] { 1, 2, 3, 4, 0 }; // is similar to the program already written.
 
 void full_blank(void) {
     digitalWrite(led, 0);
@@ -106,19 +120,15 @@ next:
     W = memory [I++];
     switch (W) {
         case 1:
-        A:
-            // print 'A'
-            goto next;
-        case 2:
         _delay:
             // delay (1000);
             goto next;
-        case 3: // xt:3
+        case 2: // xt:2
         _read_serial:
             ch = '\000';
             if (Serial.available() > 0) ch = Serial.read();
             goto next;
-        case 4:
+        case 3:
         _esc_det:
             if (ch != '\033') { if (ch != '\000') { ESC_counter = 0; } }
             if (ch == '\033') {
@@ -128,13 +138,7 @@ next:
                 if (ESC_counter == 3) return_Flag = -1;
             }
             goto next;
-        case 5:
-        _nop_b:
-            goto next;
-        case 6:
-        _nop_c:
-            goto next;
-        case 7:
+        case 4:
         branch:
             I = memory [I];
             if (return_Flag) return;
