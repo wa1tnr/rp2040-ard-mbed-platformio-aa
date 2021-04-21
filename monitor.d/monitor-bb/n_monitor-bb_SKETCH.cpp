@@ -72,7 +72,8 @@ const int memory [] {
 // 9, 5 did kind of work but the buffer wasn't updating anymore.
 // it'd keep its first reported value.
 
-         const int memory [] { 9, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
+         // const int memory [] { 9, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
+         const int memory [] { 10, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
 
 // addresses                 { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a }
 
@@ -144,6 +145,29 @@ void nocolor(void) {  // terminal default
 }
 
 
+void idx_plus(void) {
+    I++;
+}
+
+void idx_minus(void) {
+    I--;
+}
+
+void yellow(void) {
+    Serial.write('\033'); // ESC
+    Serial.write('[');
+    Serial.write('0');
+    Serial.write(';');
+    Serial.write('1');
+    Serial.write(';');
+    Serial.write('3');
+    Serial.write('3');
+    Serial.write(';');
+    Serial.write('4');
+    Serial.write('0');
+    Serial.write('m');
+}
+
 
 void green(void) {
     Serial.write('\033'); // ESC
@@ -210,7 +234,6 @@ next:
         reflash_on_exit:
             I++; // skip over tib_initializer
             if (return_Flag) {
-                // Serial.print(tib);
                 nocolor(); // kludge don't know what else to do.
                 Serial.println("That's all folks");
                 return;
@@ -229,8 +252,16 @@ next:
             green();
             goto next;
         case 9:
+        yellow:
+            yellow();
+            goto next;
+        case 10:
         nocolor:
             nocolor();
+            goto next;
+        case 11:
+        idx_plus:
+            idx_plus();
             goto next;
     }
 }
