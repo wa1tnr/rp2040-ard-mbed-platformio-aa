@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.8 bravo"
+#define REVISION_ITCF "0.1.0-e.9 alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -47,17 +47,20 @@ int reflash_timeout = 0xCFFF; // a good six minutes here 0xCFFF
 // TODO: label these better.  There are 7 instrux, but labels are out of date.
 /*
 const int memory [] {
-    1, // nop - was delay
+    1, // delay
     2, // read serial
     3, // escape detection
-    4, // branch
-    0, // to this address
+    4, // fill tib
+    5, // exit handler
+    6, // re-init tib
+    7, // branch
+    1, // to this address
 };
 */
 
 // const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 8, 1 };
-const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 1 };
-// legend           { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
+const int memory [] { 6, 1, 2, 3, 4, 5, 6, 7, 1 };
+// legend           { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
@@ -202,4 +205,3 @@ void loop () {
 }
 
 // End
-        // case 1: _delay: // case 2: _read_serial: // case 3: _esc_det: // case 4: _fill_next_tib_byte: // case 5: reflash_on_exit: // case 6: tib_initializer: // case 7: branch:
