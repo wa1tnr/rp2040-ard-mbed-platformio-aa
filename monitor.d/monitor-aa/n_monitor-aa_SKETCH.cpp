@@ -1,5 +1,5 @@
 // n_monitor-aa_SKETCH.cpp
-// Wed Apr 21 00:52:27 UTC 2021
+// Wed Apr 21 01:31:22 UTC 2021
 
 // was: forth-aa_SKETCH.cpp
 // was: ITC-Forth.ino
@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.9 alpha"
+#define REVISION_ITCF "0.1.0-f.0 alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -44,7 +44,6 @@ int W = 0; // working register
 
 int reflash_timeout = 0xCFFF; // a good six minutes here 0xCFFF
 
-// TODO: label these better.  There are 7 instrux, but labels are out of date.
 /*
 const int memory [] {
     1, // delay
@@ -58,7 +57,6 @@ const int memory [] {
 };
 */
 
-// const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 8, 1 };
 const int memory [] { 6, 1, 2, 3, 4, 5, 6, 7, 1 };
 // legend           { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
 
@@ -131,6 +129,7 @@ next:
     switch (W) {
         case 1:
         _delay:
+            // delay(800);
             goto next;
         case 2: // xt:2
         _read_serial:
@@ -142,7 +141,7 @@ next:
             if (ch != '\033') { if (ch != '\000') { ESC_counter = 0; } }
             if (ch == '\033') {
                 ch = '\000';
-                I--; I--; // relative jump back to xt:3
+                I--; I--; // point to 2nd previous instruction, xt:2 read_serial
                 ESC_counter++;
                 if (ESC_counter == 3) return_Flag = -1;
             }
@@ -159,7 +158,7 @@ next:
             if ((ch == '\012')) { // 10 decimal 0x0A
                 Serial.write('\040'); // space
                 Serial.print(tib);
-                I++;
+                I++; // point to tib_initializer
                 print_newline();
             }
             if (ch == '\010') { // backspace
@@ -168,7 +167,7 @@ next:
             goto next;
         case 5:
         reflash_on_exit:
-            I++; // skip over case 7 initializer
+            I++; // skip over tib_initializer
             if (return_Flag) {
                 Serial.print(tib);
                 Serial.println("That's all folks");
