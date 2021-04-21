@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.5 alpha"
+#define REVISION_ITCF "0.1.0-e.6 alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -168,7 +168,7 @@ next:
             if ((ch == '\012')) { // 10 decimal 0x0A
                 Serial.write('\040'); // space
                 Serial.print(tib);
-                Serial.print(" where TIB was printed. ");
+                // Serial.print(" where TIB was printed. ");
                 I++;
                 // I = 7; // hum
                 // Serial.print("Sent to I = 6");
