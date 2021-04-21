@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.8 alpha"
+#define REVISION_ITCF "0.1.0-e.8 bravo"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -164,7 +164,7 @@ next:
             }
             goto next;
         case 5:
-        branch:
+        reflash_on_exit:
             I++; // skip over case 7 initializer
             if (return_Flag) {
                 Serial.print(tib);
@@ -173,11 +173,11 @@ next:
             }
             goto next;
         case 6:
-        initializer:
+        tib_initializer:
             pos = 0; tib[0] = 0;
             goto next;
         case 7:
-        branch_b:
+        branch:
             I = memory [I];
             goto next;
     }
@@ -202,3 +202,4 @@ void loop () {
 }
 
 // End
+        // case 1: _delay: // case 2: _read_serial: // case 3: _esc_det: // case 4: _fill_next_tib_byte: // case 5: reflash_on_exit: // case 6: tib_initializer: // case 7: branch:
