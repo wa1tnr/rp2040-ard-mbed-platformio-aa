@@ -12,7 +12,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.2 color - bravo"
+#define REVISION_ITCF "0.1.0-f.3 color - alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -73,6 +73,7 @@ const int memory [] {
 // it'd keep its first reported value.
 
          const int memory [] { 9, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
+
 // addresses                 { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
@@ -209,7 +210,8 @@ next:
         reflash_on_exit:
             I++; // skip over tib_initializer
             if (return_Flag) {
-                Serial.print(tib);
+                // Serial.print(tib);
+                nocolor(); // kludge don't know what else to do.
                 Serial.println("That's all folks");
                 return;
             }
