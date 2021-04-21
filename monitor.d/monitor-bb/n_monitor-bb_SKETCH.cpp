@@ -12,7 +12,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.3 color - alpha"
+#define REVISION_ITCF "0.1.0-f.3 color - bravo vert_list"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -52,7 +52,7 @@ const int memory [] {
     1, // delay
     2, // read serial
     3, // escape detection
-    4, // fill tib
+    4, // fill tib and reinit if printed
     5, // exit handler
     6, // re-init tib
     7, // branch
@@ -73,9 +73,24 @@ const int memory [] {
 // it'd keep its first reported value.
 
          // const int memory [] { 9, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
-         const int memory [] { 10, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
+         // const int memory [] { 10, 6, 7, 4, 2, 3, 8, 4, 9, 5, 7, 12, 10, 6, 7, 4 };
+         // const int memory [] { 10, 6, 7, 4, 2, 3, 8, 4, 9, 5, 7, 12, 10, 7, 4 };
 
-// addresses                 { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a }
+const int memory [] {
+    10, // nocolor
+     8, // green
+     6, // tib_init
+     7, // branch
+     5, // location
+     2, // read serial
+     3, // esc detect
+     4, // next_byte
+     5, // exit_handle_test
+     6, // tib_init
+     7, // branch
+     5 }; // location
+
+// addresses                 {  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a,  b,  c, d, e, f }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
