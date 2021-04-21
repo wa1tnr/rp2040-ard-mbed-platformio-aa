@@ -1,5 +1,5 @@
 // n_monitor-bb_SKETCH.cpp
-// Wed Apr 21 03:03:52 UTC 2021
+// Wed Apr 21 05:18:11 UTC 2021
 
 // was: n_monitor-aa_SKETCH.cpp
 // Wed Apr 21 01:31:22 UTC 2021
@@ -12,7 +12,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.4 color - alpha"
+#define REVISION_ITCF "0.1.0-f.5 color - alpha a-0"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -60,37 +60,20 @@ const int memory [] {
 };
 */
 
-// 9 nocolor  8 green
-// GOOD: const int memory [] { 6, 1, 2, 3, 4, 5, 6, 7, 1 };
-
-// try 8, 4  subst for just the 4.
-
-// so 8 modifies 4 .. 8, 4 is valid where 4 is an opcode not an address ;)
-
-// try: 9, 5 to subst for just 5
-
-// 9, 5 did kind of work but the buffer wasn't updating anymore.
-// it'd keep its first reported value.
-
-         // const int memory [] { 9, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
-         // const int memory [] { 10, 6, 7, 4, 2, 3, 8, 4, 9, 5, 7, 12, 10, 6, 7, 4 };
-         // const int memory [] { 10, 6, 7, 4, 2, 3, 8, 4, 9, 5, 7, 12, 10, 7, 4 };
-
 const int memory [] {
     10, // nocolor
      8, // green
      6, // tib_init
-     7, // branch
-     5, // location
+     1, // nops word to fill in missing instructions
+     1, // nop
      2, // read serial
      3, // esc detect
      4, // next_byte
      5, // exit_handle_test
-     6, // tib_init
+     6, // nop
+     1, // nop
      7, // branch
-     5 }; // location
-
-// addresses                 {  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a,  b,  c, d, e, f }
+     3 }; // location
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
