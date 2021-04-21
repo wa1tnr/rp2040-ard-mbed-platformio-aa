@@ -9,7 +9,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-e.7 delta"
+#define REVISION_ITCF "0.1.0-e.8 alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -55,11 +55,9 @@ const int memory [] {
 };
 */
 
-// ^^ so this memory is going to be how/where a 'program' is written.
-
 // const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 8, 1 };
-   const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 8, 1 };
-// legend              { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
+const int memory [] { 7, 1, 2, 3, 4, 5, 6, 7, 1 };
+// legend           { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
@@ -147,9 +145,6 @@ next:
             }
             goto next;
         case 4:
-        _do_this_aa:
-            goto next;
-        case 5:
         _fill_next_tib_byte:
             if ((ch > 31) && (ch < 127)) {
                 Serial.write(ch);
@@ -168,7 +163,7 @@ next:
                 Serial.write('\010');
             }
             goto next;
-        case 6:
+        case 5:
         branch:
             I++; // skip over case 7 initializer
             if (return_Flag) {
@@ -177,11 +172,11 @@ next:
                 return;
             }
             goto next;
-        case 7:
+        case 6:
         initializer:
             pos = 0; tib[0] = 0;
             goto next;
-        case 8:
+        case 7:
         branch_b:
             I = memory [I];
             goto next;
