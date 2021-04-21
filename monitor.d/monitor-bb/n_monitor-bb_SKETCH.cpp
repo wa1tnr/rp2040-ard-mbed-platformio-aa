@@ -62,7 +62,17 @@ const int memory [] {
 
 // 9 nocolor  8 green
 // GOOD: const int memory [] { 6, 1, 2, 3, 4, 5, 6, 7, 1 };
-         const int memory [] { 9, 6, 7, 4, 2, 3, 4, 5, 6, 7, 4 };
+
+// try 8, 4  subst for just the 4.
+
+// so 8 modifies 4 .. 8, 4 is valid where 4 is an opcode not an address ;)
+
+// try: 9, 5 to subst for just 5
+
+// 9, 5 did kind of work but the buffer wasn't updating anymore.
+// it'd keep its first reported value.
+
+         const int memory [] { 9, 6, 7, 4, 2, 3, 8, 4, 5, 6, 7, 4 };
 // addresses                 { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
