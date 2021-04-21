@@ -12,7 +12,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.1 alpha"
+#define REVISION_ITCF "0.1.0-f.2 color - alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -60,8 +60,9 @@ const int memory [] {
 };
 */
 
-const int memory [] { 6, 1, 2, 3, 4, 5, 6, 7, 1 };
-// legend           { 0, 1, 2, 3, 4, 5, 6, 7, 8 }
+// const int memory [] { 6, 1, 2,    3, 4, 5, 6, 7, 1 };
+   const int memory [] { 6, 1, 2, 8, 3, 4, 5, 6, 7, 1 };
+// addresses           { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
@@ -122,6 +123,31 @@ void print_newline(void) {
     Serial.write('\r');
     Serial.write('\n');
 }
+
+void nocolor(void) {  // terminal default
+    Serial.write('\033'); // ESC
+    Serial.write('[');
+    Serial.write('0');
+    Serial.write('m');
+}
+
+
+
+void green(void) {
+    Serial.write('\033'); // ESC
+    Serial.write('[');
+    Serial.write('0');
+    Serial.write(';');
+    Serial.write('1');
+    Serial.write(';');
+    Serial.write('3');
+    Serial.write('2');
+    Serial.write(';');
+    Serial.write('4');
+    Serial.write('0');
+    Serial.write('m');
+}
+
 
 void runForth () {
     char ch;
@@ -184,6 +210,14 @@ next:
         case 7:
         branch:
             I = memory [I];
+            goto next;
+        case 8:
+        green:
+            green();
+            goto next;
+        case 9:
+        nocolor:
+            nocolor();
             goto next;
     }
 }
