@@ -1,5 +1,5 @@
 // n_monitor-bb_SKETCH.cpp
-// Wed Apr 21 01:56:30 UTC 2021
+// Wed Apr 21 03:03:52 UTC 2021
 
 // was: n_monitor-aa_SKETCH.cpp
 // Wed Apr 21 01:31:22 UTC 2021
@@ -12,7 +12,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.2 color - alpha"
+#define REVISION_ITCF "0.1.0-f.2 color - bravo"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -60,9 +60,10 @@ const int memory [] {
 };
 */
 
-// const int memory [] { 6, 1, 2,    3, 4, 5, 6, 7, 1 };
-   const int memory [] { 6, 1, 2, 8, 3, 4, 5, 6, 7, 1 };
-// addresses           { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
+// 9 nocolor  8 green
+// GOOD: const int memory [] { 6, 1, 2, 3, 4, 5, 6, 7, 1 };
+         const int memory [] { 9, 6, 7, 4, 2, 3, 4, 5, 6, 7, 4 };
+// addresses                 { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a }
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
