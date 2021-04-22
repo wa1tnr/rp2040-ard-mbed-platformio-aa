@@ -75,10 +75,17 @@ int W = 0; // working register
 
 const int memory [] {
 
+
+
+
+
+
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
+     op_pop, //
+     op_pop, //
      op_pop, //
      op_one_plus, //
      op_stack_report, //
@@ -88,13 +95,7 @@ const int memory [] {
      op_getch, //
      op_push, //
      op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
+     op_pop, //
      op_pop, //
      op_one_plus, //
      op_stack_report, //
@@ -104,13 +105,7 @@ const int memory [] {
      op_getch, //
      op_push, //
      op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
+     op_pop, //
      op_pop, //
      op_one_plus, //
      op_stack_report, //
@@ -120,13 +115,7 @@ const int memory [] {
      op_getch, //
      op_push, //
      op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
+     op_pop, //
      op_pop, //
      op_one_plus, //
      op_stack_report, //
@@ -136,8 +125,463 @@ const int memory [] {
      op_getch, //
      op_push, //
      op_pop, //
+     op_pop, //
+     op_pop, //
      op_one_plus, //
      op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+
+
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+
+
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+
+
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+
+
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+
+
+
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+     op_nop, //
+     op_delay, //
+     op_getch, //
+     op_push, //
+     op_pop, //
+     op_pop, //
+     op_pop, //
+     op_one_plus, //
+     op_stack_report, //
+
+
+
+
+
+
+
 
      op_tib_init, //
 
@@ -259,7 +703,10 @@ next:
         case op_stack_report:
         _stack_report:
             Serial.println();
-            for (int i = 0; i < STKSIZE; i++) Serial.print(pop());
+            for (int i = 0; i < STKSIZE; i++) {
+                Serial.print(pop());
+                Serial.print(' ');
+            }
             Serial.println();
             delay(4000);
             goto next;
@@ -272,6 +719,7 @@ void setup () {
     I = 0;
     S = S0;
     R = R0;
+    for (int i = 0; i < STKSIZE; i++) push((13 * i));
     runForth (); // loop; not easily escaped
 }
 
