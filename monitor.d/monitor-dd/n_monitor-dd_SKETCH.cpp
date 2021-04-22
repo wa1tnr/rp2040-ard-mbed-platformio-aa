@@ -1,6 +1,6 @@
 // n_monitor-dd_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.1 - new minimal alpha kiyuta ii"
-// Thu Apr 22 04:33:24 UTC 2021
+#define REVISION_ITCF "0.1.0-g.2 - alpha kiyuta ii"
+// Thu Apr 22 14:44:44 UTC 2021
 
 // was: n_monitor-cc_SKETCH.cpp
 // Thu Apr 22 01:31:30 UTC 2021
@@ -76,6 +76,8 @@ int W = 0; // working register
 #define op_one_plus 9
 #define op_stack_report 10
 #define op_lit 11
+#define op_gpio_on 12
+#define op_gpio_off 13
 
 const int memory [] {
 
@@ -94,6 +96,34 @@ const int memory [] {
      op_nop, //
      op_nop, //
      op_nop, //
+
+
+
+     /* blink */
+     op_lit, led, op_gpio_on,  op_delay,
+     op_lit, led, op_gpio_off, op_delay,
+     /* blink */
+     op_lit, led, op_gpio_on,  op_delay,
+     op_lit, led, op_gpio_off, op_delay,
+     /* blink */
+     op_lit, led, op_gpio_on,  op_delay,
+     op_lit, led, op_gpio_off, op_delay,
+
+
+     /* blink */
+     op_lit, led, op_gpio_on,  op_delay,
+     op_lit, led, op_gpio_off, op_delay,
+
+     /* blink */
+     op_lit, led, op_gpio_on,  op_delay,
+     op_lit, led, op_gpio_off, op_delay,
+
+
+     /* blink */
+     op_lit, led, op_gpio_on,  op_delay,
+     op_lit, led, op_gpio_off, op_delay,
+
+
      op_nop, //
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
@@ -208,6 +238,7 @@ void pre_serial(void) {
         await_serial();
     }
     Serial.println(REVISION_ITCF);
+    delay(3000);
 }
 
 void nopp(void) { } // no operation
@@ -296,6 +327,7 @@ next:
 
         case op_one_plus:
         _one_plus:
+            Serial.print(" op_one_plus");
             L = pop();
             L++;
             push(L);
@@ -308,9 +340,23 @@ next:
             goto next;
 
         case op_lit:
-        _op_lit:
+        _lit:
             push(memory[I]);
             I++;
+            goto next;
+
+        case op_gpio_on:
+        _gpio_on:
+            Serial.print(" op_gpio_on");
+            L = pop();
+            digitalWrite(L, 1);
+            goto next;
+
+        case op_gpio_off:
+        _gpio_off:
+            Serial.print(" op_gpio_off");
+            L = pop();
+            digitalWrite(L, 0);
             goto next;
     }
 }
