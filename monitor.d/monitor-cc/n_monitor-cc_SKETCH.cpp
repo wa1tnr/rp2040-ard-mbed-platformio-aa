@@ -1,5 +1,5 @@
 // n_monitor-cc_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-f.8 - new minimal alpha"
+#define REVISION_ITCF "0.1.0-g.0 - new minimal alpha"
 // Thu Apr 22 01:31:30 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
@@ -76,12 +76,58 @@ int W = 0; // working register
 
 const int memory [] {
 
-
-
-
-
-
      op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+     op_nop, //
+
+     op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
+     op_stack_report, ///
+     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     11, 5, 11, 10, 11, 15, 11, 20, 11, 25, 11, 30, 11, 35, 11, 40,
+     op_stack_report, ///
+     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
+     op_stack_report, //
+     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     11, 3,
+     11, 6,
+     11, 9,
+     11, 12,
+
+     11, 15,
+     11, 18,
+     11, 21,
+     11, 24,
+
+     op_stack_report, //
+     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     op_stack_report, //
+     op_delay, op_delay, op_delay, op_delay,
+     op_stack_report, //
+     op_delay, op_delay, op_delay, op_delay,
+     op_stack_report, //
+     op_delay, op_delay, op_delay, op_delay,
+     op_stack_report, //
+     op_delay, op_delay, op_delay, op_delay,
+     op_nop, //
+/*
      op_delay, //
      op_getch, //
      op_push, //
@@ -100,7 +146,6 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
-     op_lit, 14,
      op_stack_report, //
 
      op_nop, //
@@ -111,486 +156,8 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
-     op_lit, 21,
+*/
      op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_lit, 28,
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_lit, 35,
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_lit, 135,
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_lit, 142,
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_lit, 149,
-     op_stack_report, //
-
-
-
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-
-
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-
-
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-
-
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-
-
-
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-
-
-
-
-
-
 
      op_tib_init, //
 
@@ -632,6 +199,7 @@ void pre_serial(void) {
     while (!Serial) {
         await_serial();
     }
+    Serial.println(REVISION_ITCF);
 }
 
 void nopp(void) { } // no operation
@@ -642,7 +210,23 @@ void print_newline(void) {
 }
 
 int faked = 0;
-int L = 0; // place to pop to
+int L = 0; // place to:
+
+void print_stack_report(void) {
+    Serial.println();
+    // Serial.println(" <4> 1 2 3 4 :: Reads left to right, old to new: ");
+    for (int k = 0; k < (STKSIZE + 1); k++) L = pop();
+    for (int i = 0; i < STKSIZE; i++) {
+        for (int j = 0; j < ((STKSIZE - 1)) ; j++) {
+            L = pop();
+        }
+        Serial.print(L);
+        Serial.print(' ');
+    }
+    for (int l = 0; l < (STKSIZE - 1); l++) L = pop();
+    Serial.println();
+    // delay(4000);
+}
 
 void runForth () {
     char ch;
@@ -697,8 +281,8 @@ next:
         case op_reflash:
         _reflash:
             Serial.print(" op_reflash");
-            Serial.print(" delay 12 seconds..");
-            delay(12000);
+            Serial.print(" delay 2 seconds..");
+            delay(2000);
             reflash();
             goto next;
 
@@ -711,13 +295,8 @@ next:
 
         case op_stack_report:
         _stack_report:
-            Serial.println();
-            for (int i = 0; i < STKSIZE; i++) {
-                Serial.print(pop());
-                Serial.print(' ');
-            }
-            Serial.println();
-            delay(4000);
+            // Serial.println();
+            print_stack_report();
             goto next;
 
         case op_lit:
