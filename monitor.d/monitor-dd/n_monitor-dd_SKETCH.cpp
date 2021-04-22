@@ -1,6 +1,14 @@
 // n_monitor-dd_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.4 - alpha kiyuta ii"
-// Thu Apr 22 15:32:32 UTC 2021
+#define REVISION_ITCF "0.1.0-g.5 - alpha kiyuta ii"
+// Thu Apr 22 15:55:23 UTC 2021
+
+// $ git branch
+// * dvlp-aa
+// $ git checkout -b dvlp-aa-dump-a-
+// Switched to a new branch 'dvlp-aa-dump-a-'
+// $  git branch | egrep dvl
+//  dvlp-aa
+// * dvlp-aa-dump-a-
 
 // was: n_monitor-cc_SKETCH.cpp
 // Thu Apr 22 01:31:30 UTC 2021
