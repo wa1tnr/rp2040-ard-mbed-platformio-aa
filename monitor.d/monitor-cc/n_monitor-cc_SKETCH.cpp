@@ -1,4 +1,5 @@
 // n_monitor-cc_SKETCH.cpp
+#define REVISION_ITCF "0.1.0-f.8 - new minimal alpha"
 // Thu Apr 22 01:31:30 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
@@ -15,7 +16,6 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.7 - new minimal alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -72,6 +72,7 @@ int W = 0; // working register
 #define op_reflash 8
 #define op_one_plus 9
 #define op_stack_report 10
+#define op_lit 11
 
 const int memory [] {
 
@@ -88,6 +89,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 7,
      op_stack_report, //
 
      op_nop, //
@@ -98,6 +100,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 14,
      op_stack_report, //
 
      op_nop, //
@@ -108,6 +111,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 21,
      op_stack_report, //
 
      op_nop, //
@@ -118,6 +122,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 28,
      op_stack_report, //
 
      op_nop, //
@@ -128,6 +133,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 35,
      op_stack_report, //
 
      op_nop, //
@@ -138,6 +144,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 135,
      op_stack_report, //
 
      op_nop, //
@@ -148,6 +155,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 142,
      op_stack_report, //
 
      op_nop, //
@@ -158,6 +166,7 @@ const int memory [] {
      op_pop, //
      op_pop, //
      op_one_plus, //
+     op_lit, 149,
      op_stack_report, //
 
 
@@ -709,6 +718,12 @@ next:
             }
             Serial.println();
             delay(4000);
+            goto next;
+
+        case op_lit:
+        _op_lit:
+            push(memory[I]);
+            I++;
             goto next;
     }
 }
