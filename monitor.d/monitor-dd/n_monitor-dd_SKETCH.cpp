@@ -1,6 +1,6 @@
 // n_monitor-dd_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.5 - alpha kiyuta ii"
-// Thu Apr 22 15:55:23 UTC 2021
+#define REVISION_ITCF "0.1.0-g.6b - alpha kiyuta ii"
+// Thu Apr 22 18:02:54 UTC 2021
 
 // $ git branch
 // * dvlp-aa
@@ -26,6 +26,10 @@
   from: https://github.com/CharleyShattuck/Feather-M0-interpreter
 */
 
+/*
+   dump
+   from: https://github.com/wa1tnr/Metro-M4-Express-interpreter/blob/master/interpret_m4/interpret_m4.ino
+*/
 #include <Arduino.h>
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
@@ -86,15 +90,32 @@ int W = 0; // working register
 #define op_lit 11
 #define op_gpio_on 12
 #define op_gpio_off 13
+#define op_dump 14
+#define op_emit 15
+#define op_romptr 16
 
 #define n1_sec  999
 #define n4_sec 3999
 #define n8_sec 7999
+#define c_newline 10
+#define c_return 13
 
 const int memory [] {
 
      op_nop, op_nop, op_nop, op_nop,
      op_nop, op_nop, op_nop, op_nop,
+
+     op_lit, c_newline, op_lit, c_return,
+
+     op_romptr,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return,
+     op_lit, c_newline, op_lit, c_return,
+
+     op_stack_report,
+     op_lit, c_newline, op_lit, c_return,
+     op_lit, c_newline, op_lit, c_return,
+     op_lit, 18000, op_delay,
 
 
      /* blink */
@@ -151,6 +172,27 @@ const int memory [] {
      op_reflash
 
      };
+/*
+200012b8      1   0   0   0    1   0   0   0    1   0   0   0    1   0   0  0   ................
+200012c8      1   0   0   0    1   0   0   0    1   0   0   0    1   0   0  0   ................
+200012d8    [11]  0   0   0  [10]  0   0   0  [11]  0   0   0  [13]  0   0  0   ................
+200012e8    [16]  0   0   0  [14]  0   0   0  [11]  0   0   0 [18,000]   0  0   ............PF..
+200012f8      2   0   0   0  [11]  0   0   0  [11]  0   0   0  [12]  0   0  0   ................
+20001308    [11]  0   0   0  [40]  0   0   0    2   0   0   0  [11]  0   0  0   ....(...........
+20001318    [11]  0   0   0  [13]  0   0   0  [11]  0   0   0 [999]      0  0   ................
+20001328      2   0   0   0  [11]  0   0   0 [999]      0   0    2   0   0  0   ................
+20001338      1   0   0   0  [11]  0   0   0    0   0   0   0  [11]  0   0  0   ................
+20001348      7   0   0   0  [11]  0   0   0  [14]  0   0   0  [11]  0   0  0   ................
+20001358    [21]  0   0   0  [11]  0   0   0  [28]  0   0   0  [11]  0   0  0   ................
+20001368    [35]  0   0   0  [11]  0   0   0  [42]  0   0   0  [11]  0   0  0   #.......*.......
+20001378    [49]  0   0   0  [10]  0   0   0  [11]  0   0   0 [7,999]    0  0   1...........?...
+20001388      2   0   0   0  [11]  0   0   0    5   0   0   0  [11]  0   0  0   ................
+20001398    [10]  0   0   0  [11]  0   0   0  [15]  0   0   0  [11]  0   0  0   ................
+200013a8    [20]  0   0   0  [11]  0   0   0  [25]  0   0   0  [11]  0   0  0   ................
+*/
+
+// uint32_t mem_rom = *memory;
+uint32_t mem_rom = (uint32_t) &memory;
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
@@ -164,6 +206,9 @@ int L = 0; // place to pop into
 
 extern void reflash_firmware(void); // prototype
 
+extern void dumpRAM(void); // dump_ram.cpp
+extern void rdumps(void);
+
 /* push n to top of data stack */
 void push(int n) {
   p = (p + 1)& STKMASK;
@@ -171,7 +216,7 @@ void push(int n) {
 }
 
 /* return top of stack */
-int pop() {
+int pop(void) {
   int n = TOS;
   p = (p - 1)& STKMASK;
   return n;
@@ -312,6 +357,24 @@ next:
             Serial.print(" op_gpio_off");
             L = pop();
             digitalWrite(L, 0);
+            goto next;
+
+        case op_dump:
+        _dump:
+            Serial.print(" op_dump");
+            rdumps();
+            goto next;
+        case op_emit:
+
+        _emit:
+            // Serial.print(" op_emit");
+            Serial.write((pop()));
+            goto next;
+
+        case op_romptr:
+        _romptr:
+            Serial.print(" op_romptr");
+            push(mem_rom);
             goto next;
     }
 }
