@@ -1,5 +1,11 @@
 // n_monitor-dd_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.6b - alpha kiyuta ii"
+#define REVISION_ITCF "0.1.0-g.6f - alpha kiyuta ii"
+// Thu Apr 22 22:21:11 UTC 2021
+
+// #define REVISION_ITCF "0.1.0-g.6b - alpha kiyuta ii"
+// #define REVISION_ITCF "0.1.0-g.6e - alpha kiyuta ii np: flagstone"
+// Thu Apr 22 18:30:45 UTC 2021
+// was:
 // Thu Apr 22 18:02:54 UTC 2021
 
 // $ git branch
