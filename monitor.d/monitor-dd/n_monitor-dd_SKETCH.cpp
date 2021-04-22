@@ -1,6 +1,6 @@
 // n_monitor-dd_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.3 - alpha kiyuta ii"
-// Thu Apr 22 15:11:11 UTC 2021
+#define REVISION_ITCF "0.1.0-g.4 - alpha kiyuta ii"
+// Thu Apr 22 15:32:32 UTC 2021
 
 // was: n_monitor-cc_SKETCH.cpp
 // Thu Apr 22 01:31:30 UTC 2021
@@ -79,6 +79,10 @@ int W = 0; // working register
 #define op_gpio_on 12
 #define op_gpio_off 13
 
+#define n1_sec  999
+#define n4_sec 3999
+#define n8_sec 7999
+
 const int memory [] {
 
      op_nop, op_nop, op_nop, op_nop,
@@ -87,27 +91,27 @@ const int memory [] {
 
      /* blink */
      op_lit, led, op_gpio_on,  op_lit,  40, op_delay,
-     op_lit, led, op_gpio_off, op_lit, 999, op_delay,
+     op_lit, led, op_gpio_off, op_lit, n1_sec, op_delay,
 
-     op_lit, 999, op_delay,
+     op_lit, n1_sec, op_delay,
 
      op_nop, //
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
      op_stack_report, ///
 
-     op_lit, 7999, op_delay, // new delay idiom
+     op_lit, n8_sec, op_delay,
 
      11, 5, 11, 10, 11, 15, 11, 20, 11, 25, 11, 30, 11, 35, 11, 40,
 
      op_stack_report, ///
 
-     op_lit, 7999, op_delay,
+     op_lit, n8_sec, op_delay,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
      op_stack_report, //
 
-     op_lit, 7999, op_delay, // new delay idiom
+     op_lit, n8_sec, op_delay,
 
      11, 3,
      11, 6,
@@ -120,16 +124,16 @@ const int memory [] {
      11, 24,
 
      op_stack_report, //
-     op_lit, 7999, op_delay,
+     op_lit, n8_sec, op_delay,
 
      op_stack_report, //
-     op_lit, 3999, op_delay,
+     op_lit, n4_sec, op_delay,
      op_stack_report, //
-     op_lit, 3999, op_delay,
+     op_lit, n4_sec, op_delay,
      op_stack_report, //
-     op_lit, 3999, op_delay,
+     op_lit, n4_sec, op_delay,
      op_stack_report, //
-     op_lit, 3999, op_delay,
+     op_lit, n4_sec, op_delay,
      op_nop, //
 
      op_stack_report, //
@@ -146,6 +150,9 @@ const int memory [] {
 const byte maxtib = 16;
 char tib[maxtib];
 byte pos = 0;
+
+int faked = 0;
+int L = 0; // place to pop into
 
 extern void reflash_firmware(void); // prototype
 
@@ -190,9 +197,6 @@ void print_newline(void) {
     Serial.write('\n');
 }
 
-int faked = 0;
-int L = 0; // place to:
-
 void print_stack_report(void) {
     Serial.println();
     // Serial.println(" <4> 1 2 3 4 :: Reads left to right, old to new: ");
@@ -236,7 +240,7 @@ next:
             if (Serial.available() > 0) ch = Serial.read();
             goto next;
 
-        case op_push:
+        case op_push: // forbidden idiom - maybe - use LIT instead
         _push:
             Serial.print(" op_push");
             push(++faked);
