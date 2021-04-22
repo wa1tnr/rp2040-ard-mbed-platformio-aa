@@ -1,6 +1,6 @@
 // n_monitor-dd_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.2 - alpha kiyuta ii"
-// Thu Apr 22 14:44:44 UTC 2021
+#define REVISION_ITCF "0.1.0-g.3 - alpha kiyuta ii"
+// Thu Apr 22 15:11:11 UTC 2021
 
 // was: n_monitor-cc_SKETCH.cpp
 // Thu Apr 22 01:31:30 UTC 2021
@@ -81,62 +81,33 @@ int W = 0; // working register
 
 const int memory [] {
 
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-     op_nop, //
-
+     op_nop, op_nop, op_nop, op_nop,
+     op_nop, op_nop, op_nop, op_nop,
 
 
      /* blink */
-     op_lit, led, op_gpio_on,  op_delay,
-     op_lit, led, op_gpio_off, op_delay,
-     /* blink */
-     op_lit, led, op_gpio_on,  op_delay,
-     op_lit, led, op_gpio_off, op_delay,
-     /* blink */
-     op_lit, led, op_gpio_on,  op_delay,
-     op_lit, led, op_gpio_off, op_delay,
+     op_lit, led, op_gpio_on,  op_lit,  40, op_delay,
+     op_lit, led, op_gpio_off, op_lit, 999, op_delay,
 
-
-     /* blink */
-     op_lit, led, op_gpio_on,  op_delay,
-     op_lit, led, op_gpio_off, op_delay,
-
-     /* blink */
-     op_lit, led, op_gpio_on,  op_delay,
-     op_lit, led, op_gpio_off, op_delay,
-
-
-     /* blink */
-     op_lit, led, op_gpio_on,  op_delay,
-     op_lit, led, op_gpio_off, op_delay,
-
+     op_lit, 999, op_delay,
 
      op_nop, //
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
      op_stack_report, ///
-     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     op_lit, 7999, op_delay, // new delay idiom
 
      11, 5, 11, 10, 11, 15, 11, 20, 11, 25, 11, 30, 11, 35, 11, 40,
+
      op_stack_report, ///
-     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     op_lit, 7999, op_delay,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
      op_stack_report, //
-     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+
+     op_lit, 7999, op_delay, // new delay idiom
 
      11, 3,
      11, 6,
@@ -149,47 +120,18 @@ const int memory [] {
      11, 24,
 
      op_stack_report, //
-     op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay, op_delay,
+     op_lit, 7999, op_delay,
 
      op_stack_report, //
-     op_delay, op_delay, op_delay, op_delay,
+     op_lit, 3999, op_delay,
      op_stack_report, //
-     op_delay, op_delay, op_delay, op_delay,
+     op_lit, 3999, op_delay,
      op_stack_report, //
-     op_delay, op_delay, op_delay, op_delay,
+     op_lit, 3999, op_delay,
      op_stack_report, //
-     op_delay, op_delay, op_delay, op_delay,
+     op_lit, 3999, op_delay,
      op_nop, //
-/*
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_lit, 7,
-     op_stack_report, //
 
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-     op_stack_report, //
-
-     op_nop, //
-     op_delay, //
-     op_getch, //
-     op_push, //
-     op_pop, //
-     op_pop, //
-     op_pop, //
-     op_one_plus, //
-*/
      op_stack_report, //
 
      op_tib_init, //
@@ -283,7 +225,8 @@ next:
         case op_delay:
         _delay:
             Serial.print(" op_delay");
-            delay(999);
+            L = pop();
+            delay(L);
             goto next;
 
         case op_getch:
