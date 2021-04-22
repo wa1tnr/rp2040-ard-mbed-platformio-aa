@@ -1,5 +1,5 @@
 // n_monitor-cc_SKETCH.cpp
-// Thu Apr 22 00:41:04 UTC 2021
+// Thu Apr 22 01:31:30 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -15,7 +15,7 @@
 */
 
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-f.6 - new minimal alpha"
+#define REVISION_ITCF "0.1.0-f.7 - new minimal alpha"
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -70,6 +70,8 @@ int W = 0; // working register
 #define op_tib_init 6
 #define op_branch 7
 #define op_reflash 8
+#define op_one_plus 9
+#define op_stack_report 10
 
 const int memory [] {
 
@@ -78,48 +80,64 @@ const int memory [] {
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_nop, //
      op_delay, //
      op_getch, //
      op_push, //
      op_pop, //
+     op_one_plus, //
+     op_stack_report, //
 
      op_tib_init, //
 
@@ -186,7 +204,7 @@ next:
             nopp();
             goto next;
 
-        case op_delay: // xt:2
+        case op_delay:
         _delay:
             Serial.print(" op_delay");
             delay(999);
@@ -206,9 +224,9 @@ next:
             goto next;
 
         case op_pop:
+        _pop:
             Serial.print(" op_pop");
             L = pop();
-        _pop:
             goto next;
 
         case op_tib_init:
@@ -229,6 +247,21 @@ next:
             Serial.print(" delay 12 seconds..");
             delay(12000);
             reflash();
+            goto next;
+
+        case op_one_plus:
+        _one_plus:
+            L = pop();
+            L++;
+            push(L);
+            goto next;
+
+        case op_stack_report:
+        _stack_report:
+            Serial.println();
+            for (int i = 0; i < STKSIZE; i++) Serial.print(pop());
+            Serial.println();
+            delay(4000);
             goto next;
     }
 }
