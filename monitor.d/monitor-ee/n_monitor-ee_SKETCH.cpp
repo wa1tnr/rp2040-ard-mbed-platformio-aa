@@ -117,7 +117,9 @@ int W = 0; // working register
 #define op_gpio_on 12
 #define op_gpio_off 13
 #define op_dump 14
-#define op_emit 15
+// #define op_emit 15
+// char t .  char m .  char e  . 74 6D 65  ok
+#define op_emit      0x746D65 + _nop_hxlg
 #define op_romptr 16
 
 #define op_hxee 238
