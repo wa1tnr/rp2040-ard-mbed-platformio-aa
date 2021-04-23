@@ -1,7 +1,7 @@
 // n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii"
+#define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii np: h.e. aa"
 
-// Fri Apr 23 03:06:08 UTC 2021
+// Fri Apr 23 04:46:58 UTC 2021
 
 // $ git branch
 // * dvlp-aa-dump-a-
@@ -95,6 +95,7 @@ int W = 0; // working register
 #define _nop_hxpfx   0x111130
 #define _nop_hxlg    0x03000000
 
+#define op_exc       0xced1
 #define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
 #define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
 #define op_rba       0x616272 + _nop_hxlg
@@ -187,6 +188,7 @@ const int memory [] {
      op_nop,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, 4400, op_dly,
+     op_exc, // throw an exception
      op_rfl,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
@@ -319,13 +321,37 @@ void print_stack_report(void) {
     // delay(4000);
 }
 
+void handle_exception(void) {
+    Serial.println(" EXCEPTION encountered. delay 2 seconds..");
+    delay(2000);
+    Serial.println("reflash(); called now.");
+    reflash();
+}
+
+#define program_boundary 2100
+
 void runForth () {
     char ch;
     int ESC_counter = 0;
     bool return_Flag = 0;
 next:
+    if (I < 0) I = program_boundary + 8;
+    if (I > program_boundary) I = program_boundary + 8;
+
+    Serial.write(' '); Serial.write(' '); Serial.write('[');
+    Serial.print(I);
+    Serial.write(']'); Serial.write(' '); Serial.write(' ');
+
+    delay(200);
+
+    if (I > program_boundary) handle_exception();
+
     W = memory [I++];
     switch (W) {
+        case op_exc:
+        _exc:
+            I = I + program_boundary + 8;
+            goto next;
         case op_nop:
         _nop:
             Serial.print(" op_nop");
