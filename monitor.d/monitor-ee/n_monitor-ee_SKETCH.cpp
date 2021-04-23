@@ -96,6 +96,11 @@ int R = R0; // return stack pointer
 int I = 0; // instruction pointer
 int W = 0; // working register
 
+#define _nop_hxpfx   0x111130
+#define _nop_hxlg    0x03000000
+
+#define op_rba       0x616272 + _nop_hxlg
+
 #define op_nop 1
 #define op_delay 2
 #define op_getch 3
@@ -128,7 +133,8 @@ const int memory [] {
 
      op_lit, c_newline, op_lit, c_return,
 
-     op_romptr,
+     op_rba,
+
      op_dump,
      op_lit, c_newline, op_lit, c_return,
      op_lit, c_newline, op_lit, c_return,
@@ -392,9 +398,9 @@ next:
             Serial.write((pop()));
             goto next;
 
-        case op_romptr: // to rba
+        case op_rba: // 'r base' aka 'rom base' e.g. 'rba' rom base
         _romptr:
-            Serial.print(" op_romptr");
+            Serial.print(" op_rba");
             push(mem_rom);
             goto next;
 
