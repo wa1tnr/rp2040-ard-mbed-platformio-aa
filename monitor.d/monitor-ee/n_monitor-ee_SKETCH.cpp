@@ -1,9 +1,5 @@
 // n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.6p - alpha kiyuta ii np: mikaice ii"
-
-// ---------------------------------------
-// LAST LOW OPCODES in recent development.
-// ---------------------------------------
+#define REVISION_ITCF "0.1.0-g.6q - alpha kiyuta ii np: jarfore i"
 
 // Thu Apr 22 23:32:07 UTC 2021
 
@@ -103,36 +99,17 @@ int W = 0; // working register
 #define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
 #define op_rba       0x616272 + _nop_hxlg
 #define op_rfl       0x6C6672 + _nop_hxlg
-
-/*
-#define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
-#define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
-#define op_rba       0x616272 + _nop_hxlg
-#define op_dts       0x737464 + _nop_hxlg
-#define op_dump      0x706D64 + _nop_hxlg
-#define op_rfl       0x6C6672 + _nop_hxlg
-// want OP RFL
-#define op_dly       0x796C64 + _nop_hxlg
-*/
-
-// #define op_nop 1
-// #define op_dly 2
 #define op_dly       0x796C64 + _nop_hxlg
 #define op_getch 3
 #define op_push 4
 #define op_pop 5
 #define op_tib_init 6
 #define op_branch 7
-// #define op_rfl 8
 #define op_one_plus 9
-// #define op_dts 10
 #define op_dts       0x737464 + _nop_hxlg
-// #define op_lit 11
-#define op_gpio_on 12
-#define op_gpio_off 13
-#define op_dump 14
-// #define op_emit 15
-// char t .  char m .  char e  . 74 6D 65  ok
+#define op_pon       0x6E6F70 + _nop_hxlg
+#define op_pof       0x666F70 + _nop_hxlg
+#define op_dump      0x706D64 + _nop_hxlg
 #define op_emit      0x746D65 + _nop_hxlg
 #define op_romptr 16
 
@@ -179,8 +156,8 @@ const int memory [] {
 
 
      /* blink */
-     op_lit, led, op_gpio_on,  op_lit,  40, op_dly,
-     op_lit, led, op_gpio_off, op_lit, n1_sec, op_dly,
+     op_lit, led, op_pon,  op_lit,  40, op_dly,
+     op_lit, led, op_pof, op_lit, n1_sec, op_dly,
 
      op_lit, n1_sec, op_dly,
 
@@ -408,16 +385,20 @@ next:
             I++;
             goto next;
 
-        case op_gpio_on:
+        // case op_gpio_on:
+        case op_pon:
         _gpio_on:
-            Serial.print(" op_gpio_on");
+//          Serial.print(" op_gpio_on");
+            Serial.print(" op_pon");
             L = pop();
             digitalWrite(L, 1);
             goto next;
 
-        case op_gpio_off:
+        // case op_gpio_off:
+        case op_pof:
         _gpio_off:
-            Serial.print(" op_gpio_off");
+        //  Serial.print(" op_gpio_off");
+            Serial.print(" op_pof");
             L = pop();
             digitalWrite(L, 0);
             goto next;
