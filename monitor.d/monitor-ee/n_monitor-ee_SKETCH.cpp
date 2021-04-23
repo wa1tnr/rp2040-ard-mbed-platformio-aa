@@ -1,7 +1,7 @@
 // n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.6r - alpha kiyuta ii np: wixode iip"
+#define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii"
 
-// Fri Apr 23 02:29:44 UTC 2021
+// Fri Apr 23 03:06:08 UTC 2021
 
 // $ git branch
 // * dvlp-aa-dump-a-
@@ -113,7 +113,11 @@ int W = 0; // working register
 #define op_emit      0x746D65 + _nop_hxlg
 #define op_romptr 16
 
-#define op_hxee 238
+// #define op_hxee 238
+// #define op_hxee 0x3EEEEEE // 238
+// char e . char e . char x . char h . 65 65 78 68  ok
+// #define op_hxee 0x657868EE
+#define op_hxee 0x646E45EE
 
 #define n1_sec  999
 #define n4_sec 3999
@@ -133,25 +137,44 @@ const int memory [] {
      op_rba,
      op_dts,
 
+     /* dump */
+
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
 
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
 
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
 
+     /* dump */
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+
      op_lit, 4000, op_dly,
 
 
@@ -161,65 +184,63 @@ const int memory [] {
 
      op_lit, n1_sec, op_dly,
 
-     op_nop, //
+     op_nop,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, 4400, op_dly,
      op_rfl,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
-     op_dts, ///
+     op_dts,
 
      op_lit, n8_sec, op_dly,
 
-     op_lit, 5,
-     op_lit, 10,
-     op_lit, 15,
-     op_lit, 20,
-     op_lit, 25,
-     op_lit, 30,
-     op_lit, 35,
-     op_lit, 40,
+     op_lit, 5, op_lit, 10, op_lit, 15, op_lit, 20, op_lit, 25, op_lit, 30, op_lit, 35, op_lit, 40,
 
-     // 11, 5, 11, 10, 11, 15, 11, 20, 11, 25, 11, 30, 11, 35, 11, 40,
-
-     op_dts, ///
+     op_dts,
 
      op_lit, n8_sec, op_dly,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
-     op_dts, //
+     op_dts,
 
      op_lit, n8_sec, op_dly,
 
-     op_lit,  3,
-     op_lit,  6,
-     op_lit,  9,
-     op_lit, 12,
-     op_lit, 15,
-     op_lit, 18,
-     op_lit, 21,
-     op_lit, 24,
+     op_lit,  3, op_lit,  6, op_lit,  9, op_lit, 12, op_lit, 15, op_lit, 18, op_lit, 21, op_lit, 24,
 
-     // 11, 3, 11, 6, 11, 9, 11, 12, 11, 15, 11, 18, 11, 21, 11, 24,
-
-     op_dts, //
+     op_dts,
      op_lit, n8_sec, op_dly,
 
-     op_dts, //
+     op_dts,
      op_lit, n4_sec, op_dly,
-     op_dts, //
+     op_dts,
      op_lit, n4_sec, op_dly,
-     op_dts, //
+     op_dts,
      op_lit, n4_sec, op_dly,
-     op_dts, //
+     op_dts,
      op_lit, n4_sec, op_dly,
-     op_nop, //
+     op_nop,
 
      op_dts, //
 
      op_tib_init, //
 
-     op_rfl
+     op_dts,
+
+     op_rfl,
+
+     op_nop,
+     op_nop, op_nop, op_nop, op_nop,
+     op_nop, op_nop, op_nop, op_nop,
+     op_nop, op_nop, op_nop, op_nop,
+     op_nop, op_nop, op_nop, op_nop,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee,
+     op_hxee, op_hxee, op_hxee, op_hxee, // compiler lets you keep your comma
 
      };
 
