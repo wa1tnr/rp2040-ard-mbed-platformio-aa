@@ -100,9 +100,10 @@ int W = 0; // working register
 #define _nop_hxlg    0x03000000
 
 #define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
+#define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
 #define op_rba       0x616272 + _nop_hxlg
 
-#define op_nop 1
+// #define op_nop 1
 #define op_delay 2
 #define op_getch 3
 #define op_push 4
@@ -133,11 +134,26 @@ const int memory [] {
      op_nop, op_nop, op_nop, op_nop,
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_stack_report,
 
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_rba,
+     op_stack_report,
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_stack_report,
 
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_stack_report,
+
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_stack_report,
+
+
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
 
      op_stack_report,
