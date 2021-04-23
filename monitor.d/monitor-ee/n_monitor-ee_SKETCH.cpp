@@ -1,5 +1,5 @@
 // n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.6m - alpha kiyuta ii np: mikaice"
+#define REVISION_ITCF "0.1.0-g.6p - alpha kiyuta ii np: mikaice ii"
 
 // ---------------------------------------
 // LAST LOW OPCODES in recent development.
@@ -102,6 +102,7 @@ int W = 0; // working register
 #define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
 #define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
 #define op_rba       0x616272 + _nop_hxlg
+#define op_rfl       0x6C6672 + _nop_hxlg
 
 /*
 #define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
@@ -122,9 +123,10 @@ int W = 0; // working register
 #define op_pop 5
 #define op_tib_init 6
 #define op_branch 7
-#define op_rfl 8
+// #define op_rfl 8
 #define op_one_plus 9
-#define op_stack_report 10
+// #define op_dts 10
+#define op_dts       0x737464 + _nop_hxlg
 // #define op_lit 11
 #define op_gpio_on 12
 #define op_gpio_off 13
@@ -148,29 +150,29 @@ const int memory [] {
      op_nop, op_nop, op_nop, op_nop,
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_stack_report,
+     op_dts,
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_rba,
-     op_stack_report,
+     op_dts,
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_stack_report,
+     op_dts,
 
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_stack_report,
+     op_dts,
 
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_stack_report,
+     op_dts,
 
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
 
-     op_stack_report,
+     op_dts,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, 4000, op_dly,
@@ -188,18 +190,18 @@ const int memory [] {
      op_rfl,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
-     op_stack_report, ///
+     op_dts, ///
 
      op_lit, n8_sec, op_dly,
 
      11, 5, 11, 10, 11, 15, 11, 20, 11, 25, 11, 30, 11, 35, 11, 40,
 
-     op_stack_report, ///
+     op_dts, ///
 
      op_lit, n8_sec, op_dly,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
-     op_stack_report, //
+     op_dts, //
 
      op_lit, n8_sec, op_dly,
 
@@ -213,20 +215,20 @@ const int memory [] {
      11, 21,
      11, 24,
 
-     op_stack_report, //
+     op_dts, //
      op_lit, n8_sec, op_dly,
 
-     op_stack_report, //
+     op_dts, //
      op_lit, n4_sec, op_dly,
-     op_stack_report, //
+     op_dts, //
      op_lit, n4_sec, op_dly,
-     op_stack_report, //
+     op_dts, //
      op_lit, n4_sec, op_dly,
-     op_stack_report, //
+     op_dts, //
      op_lit, n4_sec, op_dly,
      op_nop, //
 
-     op_stack_report, //
+     op_dts, //
 
      op_tib_init, //
 
@@ -394,9 +396,9 @@ next:
             push(L);
             goto next;
 
-        case op_stack_report:
+        // case op_stack_report:
+        case op_dts:
         _stack_report:
-            // Serial.println();
             print_stack_report();
             goto next;
 
