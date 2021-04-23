@@ -113,6 +113,8 @@ int W = 0; // working register
 #define op_emit 15
 #define op_romptr 16
 
+#define op_hxee 238
+
 #define n1_sec  999
 #define n4_sec 3999
 #define n8_sec 7999
@@ -390,10 +392,15 @@ next:
             Serial.write((pop()));
             goto next;
 
-        case op_romptr:
+        case op_romptr: // to rba
         _romptr:
             Serial.print(" op_romptr");
             push(mem_rom);
+            goto next;
+
+        case op_hxee:
+        _hxee:
+            // nothing - is a marker instruction only
             goto next;
     }
 }
