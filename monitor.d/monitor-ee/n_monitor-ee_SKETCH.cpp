@@ -1,5 +1,5 @@
 // n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.6j - alpha kiyuta ii np: lloc"
+#define REVISION_ITCF "0.1.0-g.6k - alpha kiyuta ii np: tinlead"
 
 // ---------------------------------------
 // LAST LOW OPCODES in recent development.
@@ -99,6 +99,7 @@ int W = 0; // working register
 #define _nop_hxpfx   0x111130
 #define _nop_hxlg    0x03000000
 
+#define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
 #define op_rba       0x616272 + _nop_hxlg
 
 #define op_nop 1
@@ -111,7 +112,7 @@ int W = 0; // working register
 #define op_reflash 8
 #define op_one_plus 9
 #define op_stack_report 10
-#define op_lit 11
+// #define op_lit 11
 #define op_gpio_on 12
 #define op_gpio_off 13
 #define op_dump 14
@@ -131,17 +132,17 @@ const int memory [] {
      op_nop, op_nop, op_nop, op_nop,
      op_nop, op_nop, op_nop, op_nop,
 
-     op_lit, c_newline, op_lit, c_return,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
 
      op_rba,
 
      op_dump,
-     op_lit, c_newline, op_lit, c_return,
-     op_lit, c_newline, op_lit, c_return,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
 
      op_stack_report,
-     op_lit, c_newline, op_lit, c_return,
-     op_lit, c_newline, op_lit, c_return,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, 18000, op_delay,
 
 
@@ -152,6 +153,9 @@ const int memory [] {
      op_lit, n1_sec, op_delay,
 
      op_nop, //
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_lit, 7000, op_delay,
+     op_reflash,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
      op_stack_report, ///
@@ -391,8 +395,8 @@ next:
             Serial.print(" op_dump");
             rdumps();
             goto next;
-        case op_emit:
 
+        case op_emit:
         _emit:
             // Serial.print(" op_emit");
             Serial.write((pop()));
