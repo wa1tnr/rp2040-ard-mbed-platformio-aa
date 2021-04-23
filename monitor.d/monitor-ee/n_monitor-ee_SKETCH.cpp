@@ -1,5 +1,10 @@
 // n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.6g - alpha kiyuta ii"
+#define REVISION_ITCF "0.1.0-g.6j - alpha kiyuta ii np: lloc"
+
+// ---------------------------------------
+// LAST LOW OPCODES in recent development.
+// ---------------------------------------
+
 // Thu Apr 22 23:32:07 UTC 2021
 
 // $ git branch
