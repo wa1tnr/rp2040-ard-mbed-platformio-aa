@@ -78,6 +78,7 @@ const int STKMASK = 7;
 int stack[STKSIZE];
 int p = 0;
 int reflash_timeout = 0xCFFF; // a good six minutes here 0xCFFF
+int mem_size = 0; // for sizeof<foo>
 
 /* TOS is Top Of Stack */
 #define TOS stack[p]
@@ -106,6 +107,8 @@ int W = 0; // working register
 #define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
 #define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
 #define op_rba       0x616272 + _nop_hxlg
+#define op_rmb       0x626D72 + _nop_hxlg // hex char b . char m . char r . 62 6D 72  ok
+
 #define op_rfl       0x6C6672 + _nop_hxlg
 #define op_dly       0x796C64 + _nop_hxlg
 #define op_getch 3
@@ -255,6 +258,7 @@ const int memory [] {
 
 // uint32_t mem_rom = *memory;
 uint32_t mem_rom = (uint32_t) &memory;
+uint32_t mem_ram = (uint32_t) &RAMSPACE;
 
 // https://github.com/CharleyShattuck/Feather-M0-interpreter/blob/master/Interpreter.ino
 
@@ -273,12 +277,18 @@ extern void rdumps(void);
 
 /* copy ROM-like space into RAM-like space: */
 void copy_over(void) {
+    int mem_size = sizeof(memory) / 4;
+    int words = sizeof(RAMSPACE) / 4; // 0x1200 array subscripts
+    // Serial.print("sizeof(RAMSPACE) is: ");
+    // Serial.println(words); delay(18000);
 
-    for (int i=0; i<RAM_SIZE; i++) {
+    // Serial.print("sizeof(memory) is: ");
+    // Serial.println(mem_size);
+    for (int i=0; i<words; i++) {
         RAMSPACE[i] = 1; // nop fill
     }
 
-    for (int i=0; i<RAM_SIZE; i++) {
+    for (int i=0; i<mem_size; i++) {
         RAMSPACE[i] = memory [i];
     }
 
@@ -366,7 +376,8 @@ next:
 
     if (I > program_boundary) handle_exception();
 
-    W = memory [I++];
+    // W = memory [I++];
+    W = RAMSPACE [I++];
     switch (W) {
         case op_exc:
         _exc:
@@ -474,9 +485,15 @@ next:
             Serial.write((pop()));
             goto next;
 
-        case op_rba: // 'r base' aka 'rom base' e.g. 'rba' rom base
-        _romptr:
+        case op_rba: // 'ram base' e.g. 'rba' ram base
+        _ramptr:
             Serial.print(" op_rba");
+            push(mem_ram);
+            goto next;
+
+        case op_rmb: // 'rom base' 'rmb' rom base
+        _romptr:
+            Serial.print(" op_rmb");
             push(mem_rom);
             goto next;
 
@@ -493,6 +510,7 @@ void setup () {
     I = 0;
     S = S0;
     R = R0;
+    copy_over(); // where?
     for (int i = 0; i < STKSIZE; i++) push((13 * i));
     runForth (); // loop; not easily escaped
 }
