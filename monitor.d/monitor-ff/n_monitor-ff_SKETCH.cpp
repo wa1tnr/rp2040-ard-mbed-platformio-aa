@@ -1,6 +1,6 @@
 // n_monitor-ee_SKETCH.cpp
 // #define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii np: h.e. aa"
-#define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst bb"
+#define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst cc"
 
 // Sat Apr 24 21:29:29 UTC 2021
 
@@ -58,10 +58,14 @@
 #define SLOW_WAIT_AA 125
 
 // #define RAM_SIZE 0x1200
-// #define RAM_SIZE 0x500
 
-// #define RAM_SIZE 0x120
-#define RAM_SIZE 0x160
+#define xxRAM_SIZE 0x168
+
+#define xbRAM_SIZE 0x188
+#define xcRAM_SIZE 0x1C8
+#define xdRAM_SIZE 0x248
+#define RAM_SIZE 0x2C8
+
 // #define RAM_SIZE 0x500
 #define S0 0x1000
 #define R0 0x0f00
@@ -107,8 +111,10 @@ int W = 0; // working register
 #define _nop_hxlg    0x03000000
 
 #define op_exc       0xced1
+#define op_ext       0x747865 // exception testing (deliberate)
 #define op_lit       0x74696C + _nop_hxlg // lit: 6C l  69 i  74 t  0x74696C
 #define op_nop       0x706F6E + _nop_hxlg // n: 6e o: 6f p: 70
+#define op_n0p       0x4F4F4F4F
 #define op_rba       0x616272 + _nop_hxlg
 #define op_rmb       0x626D72 + _nop_hxlg // hex char b . char m . char r . 62 6D 72  ok
 
@@ -152,6 +158,41 @@ const int memory [] {
      // op_rba,
      // op_rmb,
      op_rba,
+     op_dts,
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
 
      /* dump */
@@ -244,7 +285,7 @@ const int memory [] {
      op_nop,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, 4400, op_dly,
-     op_exc, // throw an exception
+     op_ext, // throw a test exception
      op_rfl,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
@@ -322,24 +363,25 @@ extern void dumpRAM(void); // dump_ram.cpp
 extern void rdumps(void);
 
 // #define FILL_CHAR 514
-#define FILL_CHAR 0x5DDDDDDD
+#define FILL_CHAR 0x4F4F4F4F
+#define xxFILL_CHAR 0x5DDDDDDD
 // #define FILL_CHAR 1
 /* copy ROM-like space into RAM-like space: */
 void copy_over(void) {
     int mem_size = sizeof(memory) / 4;
-    int words = sizeof(RAMSPACE) / 4; // 0x1200 array subscripts
-    words = words - 32; // drop it some
-    // Serial.print("sizeof(RAMSPACE) is: ");
-    Serial.println("words: ");
-    Serial.println((words)); delay(1800);
 
-    // Serial.print("sizeof(memory) is: ");
-    // Serial.println(mem_size);
-    for (int i=0; i< ((words)); i++) {
-        RAMSPACE[i] = FILL_CHAR; // nop fill
+    // fill ram space with nonsense, first.
+    for (int i=0; i< (RAM_SIZE); i++) {
+        RAMSPACE[i] = FILL_CHAR;
     }
-
-    for (int i=0; i<mem_size; i++) {
+    for (int i= (RAM_SIZE - 256); i< RAM_SIZE; i++) {
+        RAMSPACE[i] = op_nop; // nop
+    }
+    for (int i= (RAM_SIZE - 64); i< RAM_SIZE; i++) { // top end
+        RAMSPACE[i] = op_exc; // throw exception
+    }
+    // copy active program into ram, for execution in switch/case
+    for (int i=0; i < mem_size; i++) {
         RAMSPACE[i] = memory [i];
     }
 
@@ -435,8 +477,18 @@ next:
     switch (W) {
         case op_exc:
         _exc:
+            Serial.println(""); Serial.print("  * * *   EXCEPTION   * * *  ");
             I = I + program_boundary + 8;
             goto next;
+
+        case op_ext:
+        _ext:
+            Serial.println(""); Serial.print("  * * *  test exception   * * *  ");
+            I = I + 192;
+            goto next;
+
+        case op_n0p:
+            Serial.print("~~~op_n0p~~");
         case op_nop:
         _nop:
             Serial.print(" op_nop");
