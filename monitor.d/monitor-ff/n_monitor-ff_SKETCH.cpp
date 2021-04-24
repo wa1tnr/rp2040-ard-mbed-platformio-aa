@@ -1,10 +1,8 @@
 // n_monitor-ee_SKETCH.cpp
 // #define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii np: h.e. aa"
-#define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst aa"
+#define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst bb"
 
-
-// Sat Apr 24 20:20:20 UTC 2021
-
+// Sat Apr 24 21:29:29 UTC 2021
 
 // $ git branch
 // * dvlp-aa-dump-a-
@@ -59,7 +57,12 @@
 
 #define SLOW_WAIT_AA 125
 
-#define RAM_SIZE 0x1200
+// #define RAM_SIZE 0x1200
+// #define RAM_SIZE 0x500
+
+// #define RAM_SIZE 0x120
+#define RAM_SIZE 0x160
+// #define RAM_SIZE 0x500
 #define S0 0x1000
 #define R0 0x0f00
 
@@ -145,6 +148,9 @@ const int memory [] {
      op_dts,
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     /* pick one: op_rba  ..  or  ..  op_rmb  .. here: */
+     // op_rba,
+     // op_rmb,
      op_rba,
      op_dts,
 
@@ -182,6 +188,46 @@ const int memory [] {
      op_dump,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
+
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+
+     /* dump */
+
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dump,
+     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
+     op_dts,
+
+
+
+
+
+
+
+
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
@@ -275,17 +321,22 @@ extern void reflash_firmware(void); // prototype
 extern void dumpRAM(void); // dump_ram.cpp
 extern void rdumps(void);
 
+// #define FILL_CHAR 514
+#define FILL_CHAR 0x5DDDDDDD
+// #define FILL_CHAR 1
 /* copy ROM-like space into RAM-like space: */
 void copy_over(void) {
     int mem_size = sizeof(memory) / 4;
     int words = sizeof(RAMSPACE) / 4; // 0x1200 array subscripts
+    words = words - 32; // drop it some
     // Serial.print("sizeof(RAMSPACE) is: ");
-    // Serial.println(words); delay(18000);
+    Serial.println("words: ");
+    Serial.println((words)); delay(1800);
 
     // Serial.print("sizeof(memory) is: ");
     // Serial.println(mem_size);
-    for (int i=0; i<words; i++) {
-        RAMSPACE[i] = 1; // nop fill
+    for (int i=0; i< ((words)); i++) {
+        RAMSPACE[i] = FILL_CHAR; // nop fill
     }
 
     for (int i=0; i<mem_size; i++) {
@@ -360,6 +411,8 @@ void handle_exception(void) {
 
 #define program_boundary 2100
 
+bool extra_printing = 0; // -1;
+
 void runForth () {
     char ch;
     int ESC_counter = 0;
@@ -368,11 +421,12 @@ next:
     if (I < 0) I = program_boundary + 8;
     if (I > program_boundary) I = program_boundary + 8;
 
-    Serial.write(' '); Serial.write(' '); Serial.write('[');
-    Serial.print(I);
-    Serial.write(']'); Serial.write(' '); Serial.write(' ');
-
-    delay(200);
+    if (extra_printing) {
+        Serial.write(' '); Serial.write(' '); Serial.write('[');
+        Serial.print(I);
+        Serial.write(']'); Serial.write(' '); Serial.write(' ');
+        delay(200);
+    }
 
     if (I > program_boundary) handle_exception();
 
@@ -476,6 +530,9 @@ next:
         case op_dump:
         _dump:
             Serial.print(" op_dump");
+            Serial.println("");
+            Serial.println("    OOB: 0x12B8 0x172C ROM");
+            Serial.println("    OOB: 0x2114 0x2587 RAM");
             rdumps();
             goto next;
 
