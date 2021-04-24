@@ -1,7 +1,10 @@
 // n_monitor-ee_SKETCH.cpp
+// #define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii np: h.e. aa"
 #define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst aa"
 
+
 // Sat Apr 24 20:20:20 UTC 2021
+
 
 // $ git branch
 // * dvlp-aa-dump-a-
@@ -59,6 +62,10 @@
 #define RAM_SIZE 0x1200
 #define S0 0x1000
 #define R0 0x0f00
+
+int J = 0; // counter
+
+int RAMSPACE [RAM_SIZE];
 
 /* Data stack for parameter passing
    This "stack" is circular,
@@ -263,6 +270,19 @@ extern void reflash_firmware(void); // prototype
 
 extern void dumpRAM(void); // dump_ram.cpp
 extern void rdumps(void);
+
+/* copy ROM-like space into RAM-like space: */
+void copy_over(void) {
+
+    for (int i=0; i<RAM_SIZE; i++) {
+        RAMSPACE[i] = 1; // nop fill
+    }
+
+    for (int i=0; i<RAM_SIZE; i++) {
+        RAMSPACE[i] = memory [i];
+    }
+
+}
 
 /* push n to top of data stack */
 void push(int n) {
