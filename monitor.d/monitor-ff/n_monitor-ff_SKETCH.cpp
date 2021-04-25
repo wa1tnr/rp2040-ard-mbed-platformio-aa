@@ -1,6 +1,5 @@
 // n_monitor-ee_SKETCH.cpp
-// #define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii np: h.e. aa"
-#define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst cc"
+#define REVISION_ITCF "0.1.0-g.7c - alpha kiyuta iii np: tst aa"
 
 // Sun Apr 25 00:17:17 UTC 2021
 
@@ -459,7 +458,8 @@ next:
         case op_ext:
         _ext:
             Serial.println(""); Serial.print("  * * *  test exception   * * *  ");
-            I = I + 192;
+            // I = I + 192;
+            I = I + 160;
             goto next;
 
         case op_n0p:
