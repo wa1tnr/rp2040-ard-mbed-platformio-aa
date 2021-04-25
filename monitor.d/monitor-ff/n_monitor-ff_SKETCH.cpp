@@ -122,9 +122,9 @@ const int memory [] {
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      /* pick one: op_rba  ..  or  ..  op_rmb  .. here: */
-     // op_rba,
-     // op_rmb,
      op_rba,
+     // op_rmb,
+     // op_rba,
      op_dts,
 
      /* dump */
@@ -185,57 +185,15 @@ const int memory [] {
 
      /* dump */
 
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dump,
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dts,
+     /* dump */
 
      /* dump */
 
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dump,
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dts,
-
+     /* dump */
 
      /* dump */
 
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dump,
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dts,
-
-
      /* dump */
-
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dump,
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dts,
-
-
-     /* dump */
-
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dump,
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dts,
-
-
-     /* dump */
-
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dump,
-     op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_dts,
-
-
-
-
-
-
-
-
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
@@ -251,7 +209,12 @@ const int memory [] {
 
      op_nop,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
-     op_lit, 4400, op_dly,
+     op_lit, 4733, op_dly, // 4733 is 0x127D
+
+//
+// 2000246C: 6C 69 74  3  7D 12 00 00  64 6C 79  3  72 66 6C  3  lit.}...dly.rfl.
+//                        ^^ ^^
+
      // ------------------------------
      // ------------------------------
      // ------------------------------
@@ -567,9 +530,15 @@ next:
         case op_dump:
         _dump:
             Serial.print(" op_dump");
-            Serial.println("");
-            Serial.println("    OOB: 0x12B8 0x172C ROM");
-            Serial.println("    OOB: 0x2114 0x2587 RAM");
+            // Serial.println("");
+            // Serial.println("    OOB: 0x12B8 0x17D0 ROM");
+            // Serial.println("    OOB: 0x21BC 0x26D3 RAM");
+
+    // 200021BC: 6E 6F 70  3  6E 6F 70  3  6E 6F 70  3  6E 6F 70  3  nop.nop.nop.nop.
+
+
+    // 200026CC: EE 45 6E 64  EE 45 6E 64  4F 4F 4F 4F  4F 4F 4F 4F  .End.EndOOOOOOOO
+
             rdumps();
             goto next;
 
