@@ -247,6 +247,13 @@ void rdumps() {
   }
 }
 
+boolean quit_flag = 0;
+
+NAMED(_quit, "quit");
+void quit() {
+    quit_flag = -1; // true
+}
+
 /* End of Forth interpreter words */
 /* ******************************************** */
 /* Beginning of application words */
@@ -270,6 +277,7 @@ void words();
 const entry dictionary[] = {
   {_nop, nop},
   {_words, words},
+  {_quit, quit},
   {_dup, dup},
   {_drop, drop},
   {_back, back},
@@ -311,15 +319,18 @@ void words() {
 
 /* Find a word in the dictionary, returning its position */
 int locate() {
-  Serial.println("DEBUG: locate() was called.");
-  Serial.print(" Number of entries is: ");
-  Serial.println(entries);
-  delay(3000);
+  // Serial.println("DEBUG: locate() was called.");
+  // Serial.print(" Number of entries is: ");
+  // Serial.println(entries);
+  // delay(3000);
   for (int i = (entries - 1); i >= 0; i--) { // 25 april was not entries -1 just entries
-    Serial.println("DEBUG inside loop locate");
+    // Serial.println("DEBUG inside loop locate");
     strcpy(namebuf, dictionary[i].name);
     // if (!strcmp(tib, namebuf)) return i;
-    if (!strcmp(tib, namebuf)) { Serial.print(" found i: "); Serial.println(i); return i; }
+    if (!strcmp(tib, namebuf)) {
+        Serial.print(" found i: "); Serial.println(i);
+        return i; // just this in production version and no curly braces
+    }
   }
   return 0;
 }
@@ -349,6 +360,7 @@ void ok() {
 byte reading() {
   if (!Serial.available()) return 1;
   ch = Serial.read();
+  Serial.write(ch); // KLUDGE 25 April 2021
   if (ch == '\n') return 0; // terminal pref 25 apr 2021
   // if (ch == '\r') return 0;
   // if (ch == '\r') return 1; // not terminal pref 25 apr 2021
@@ -366,7 +378,7 @@ void readword() {
   pos = 0;
   tib[0] = 0;
   while (reading());
-  Serial.print(tib);
+  Serial.print('\000'); // Serial.print(tib); // KLUDGE 25 April 2021 - was enabled in upstream
   Serial.print(" ");
 }
 
@@ -375,7 +387,7 @@ void runword() {
   int place = locate();
   if (place != 0) {
     dictionary[place].function();
-    Serial.println("DEBUG 25 apr: dictionary thing in 'runword' happened already.");
+    // Serial.println("DEBUG 25 apr: dictionary thing in 'runword' happened already.");
     ok();
     return;
   }
@@ -389,7 +401,16 @@ void runword() {
 
 /* Arduino main loop */
 
+void blink_three(void) {
+  for (int i=3;i>0;i--) {
+      digitalWrite(13, 1); delay(500); digitalWrite(13, 0); delay(900);
+  }
+}
+
 void setup() {
+  pinMode(13, 1); // Feather RP2040 LED
+  blink_three();
+
   Serial.begin(9600);
   while (!Serial);
   Serial.println ("Forth-like interpreter:");
@@ -397,8 +418,23 @@ void setup() {
   Serial.println();
 }
 
-void loop() {
+byte secondary_Forth_loop(void) {
   readword();
   runword();
+  if (quit_flag) {
+      Serial.println(" SEEN: quit_flag = -1");
+      quit_flag = 0; // reset it
+      return 0; // exit secondary loop
+  }
+  return 1;
 }
+
+void loop(void) {
+    while(secondary_Forth_loop());
+    Serial.println("QUIT detected!");
+    delay(3000);
+    Serial.println();
+    Serial.println("RESTARTing.");
+}
+
 // Sun Apr 25 17:23:54 UTC 2021
