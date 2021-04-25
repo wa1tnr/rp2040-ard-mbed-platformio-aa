@@ -122,8 +122,8 @@ const int memory [] {
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      /* pick one: op_rba  ..  or  ..  op_rmb  .. here: */
-     op_rba,
-     // op_rmb,
+     // op_rba,
+     op_rmb,
      // op_rba,
      op_dts,
 
