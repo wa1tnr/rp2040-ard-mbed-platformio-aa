@@ -1,10 +1,10 @@
 // n_monitor-ff_SKETCH.cpp
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-g.7z - alpha kiyuta v"
+#define REVISION_ITCF "0.1.0-g.8a - alpha kiyuta i"
 
 // op_rba active now.
 
-// Sun Apr 25 01:07:07 UTC 2021
+// Sun Apr 25 01:20:40 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -204,7 +204,8 @@ const int memory [] {
 
 
      /* blink */
-     op_lit, led, op_pon,  op_lit,  40, op_dly,
+     op_lit, led, op_pon,  op_lit,  1100, // BLINK DELAY late in program exec.
+     op_dly,
      op_lit, led, op_pof, op_lit, n1_sec, op_dly,
 
      op_lit, n1_sec, op_dly,
