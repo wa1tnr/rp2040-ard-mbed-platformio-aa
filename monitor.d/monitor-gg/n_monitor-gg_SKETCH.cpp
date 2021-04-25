@@ -1,11 +1,11 @@
 // n_monitor-ff_SKETCH.cpp
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-g.8b - alpha kiyuta i"
+#define REVISION_ITCF "0.1.0-g.8c - alpha kiyuta i"
 
 // TODO: make program boundary accurate or meaningful
 // op_rba active now.
 
-// Sun Apr 25 02:26:00 UTC 2021
+// Sun Apr 25 02:36:48 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -37,6 +37,16 @@
 // #define RAM_SIZE 0x1200
 
 #define RAM_SIZE 0x2C8
+
+// program_boundary is set arbitrarily as a 'fence'.
+// code found above the fence will throw an exception.
+// it is an address bounds checker/enforcer.
+// can be set very close to the end of the RAMSPACE array.
+
+// much shorter than 180 will set off an exception, in
+// the current program (25 April 2021 02:36 UTC).
+
+#define program_boundary 180 // 0xB4
 
 // #define RAM_SIZE 0x500
 #define S0 0x1000
@@ -400,8 +410,6 @@ void handle_exception(void) {
     Serial.println("reflash(); called now.");
     reflash();
 }
-
-#define program_boundary 2100
 
 bool extra_printing = 0; // -1;
 
