@@ -1,11 +1,11 @@
 // n_monitor-ff_SKETCH.cpp
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-g.8c - alpha kiyuta i"
+#define REVISION_ITCF "0.1.0-g.8d - alpha kiyuta i"
 
 // TODO: make program boundary accurate or meaningful
 // op_rba active now.
 
-// Sun Apr 25 02:36:48 UTC 2021
+// Sun Apr 25 03:37:07 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -103,7 +103,9 @@ int W = 0; // working register
 #define op_getch 3
 #define op_push 4
 #define op_pop 5
-#define op_tib_init 6
+// #define op_tbz 6
+#define op_tbz       0x7A6274 + _nop_hxlg // char z . char b . char t . 7A 62 74  ok
+
 #define op_branch 7
 #define op_one_plus 9
 #define op_dts       0x737464 + _nop_hxlg
@@ -272,7 +274,7 @@ const int memory [] {
 //  LINE 472 is 98
      op_dts, //
 
-     op_tib_init,
+     op_tbz,
 
 
      op_dts,
@@ -481,9 +483,9 @@ next:
             L = pop();
             goto next;
 
-        case op_tib_init:
+        case op_tbz:
         _tib_init:
-            Serial.print(" op_tib_init");
+            Serial.print(" op_tbz");
             pos = 0; tib[0] = 0;
             goto next;
 
