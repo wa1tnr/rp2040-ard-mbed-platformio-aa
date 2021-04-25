@@ -2,32 +2,7 @@
 // #define REVISION_ITCF "0.1.0-g.7a - alpha kiyuta iii np: h.e. aa"
 #define REVISION_ITCF "0.1.0-g.7b - alpha kiyuta iii np: tst cc"
 
-// Sat Apr 24 21:29:29 UTC 2021
-
-// $ git branch
-// * dvlp-aa-dump-a-
-
-// was (most recent):
-// #define REVISION_ITCF "0.1.0-g.6b - alpha kiyuta ii"
-// Thu Apr 22 22:21:11 UTC 2021
-
-// was: (or privately):
-// #define REVISION_ITCF "0.1.0-g.6e - alpha kiyuta ii np: flagstone"
-// was:
-// Thu Apr 22 18:30:45 UTC 2021
-// was:
-// Thu Apr 22 18:02:54 UTC 2021
-
-// $ git branch
-// * dvlp-aa
-// $ git checkout -b dvlp-aa-dump-a-
-// Switched to a new branch 'dvlp-aa-dump-a-'
-// $  git branch | egrep dvl
-//  dvlp-aa
-// * dvlp-aa-dump-a-
-
-// was: n_monitor-cc_SKETCH.cpp
-// Thu Apr 22 01:31:30 UTC 2021
+// Sun Apr 25 00:17:17 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -59,18 +34,11 @@
 
 // #define RAM_SIZE 0x1200
 
-#define xxRAM_SIZE 0x168
-
-#define xbRAM_SIZE 0x188
-#define xcRAM_SIZE 0x1C8
-#define xdRAM_SIZE 0x248
 #define RAM_SIZE 0x2C8
 
 // #define RAM_SIZE 0x500
 #define S0 0x1000
 #define R0 0x0f00
-
-int J = 0; // counter
 
 int RAMSPACE [RAM_SIZE];
 
