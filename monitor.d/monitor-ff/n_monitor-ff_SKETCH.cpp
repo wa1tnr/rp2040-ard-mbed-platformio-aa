@@ -252,7 +252,13 @@ const int memory [] {
      op_nop,
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_lit, 4400, op_dly,
+     // ------------------------------
+     // ------------------------------
+     // ------------------------------
      op_ext, // throw a test exception
+     // ------------------------------
+     // ------------------------------
+     // ------------------------------
      op_rfl,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
@@ -286,14 +292,17 @@ const int memory [] {
      op_lit, n4_sec, op_dly,
      op_nop,
 
+//  LINE 472 is 98
      op_dts, //
 
-     op_tib_init, //
+     op_tib_init,
+
 
      op_dts,
 
      op_rfl,
 
+// try 103 at Line 472
      op_nop,
      op_nop, op_nop, op_nop, op_nop,
      op_nop, op_nop, op_nop, op_nop,
@@ -459,7 +468,8 @@ next:
         _ext:
             Serial.println(""); Serial.print("  * * *  test exception   * * *  ");
             // I = I + 192;
-            I = I + 160;
+            // I = I + 160;
+            I = I +  106; // 103
             goto next;
 
         case op_n0p:
@@ -581,10 +591,12 @@ next:
             push(mem_rom);
             goto next;
 
+/*
         case op_hxee:
         _hxee:
             // nothing - is a marker instruction only
             goto next;
+*/
         default:
             Serial.println("");
             Serial.println("");
