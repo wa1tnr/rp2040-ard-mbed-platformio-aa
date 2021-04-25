@@ -1,28 +1,25 @@
-Thu Apr 22 23:32:07 UTC 2021
+Sun Apr 25 01:33:59 UTC 2021
 
 Designed for and tested on Adafruit ItsyBitsy RP2040.
 
 Likely to work on Feather RP2040 without modification.
 
-  monitor-ee.ino - empty sketch
-  n_monitor-ee_SKETCH.cpp - real sketch
+  monitor-ff.ino - empty sketch
+  n_monitor-ff_SKETCH.cpp - real sketch
   reflash.cpp - reflash routine
   dump_ram.cpp - dump ram block 256 bytes increment addrs
+  dump_ram.cpp - dump ram block 256 bytes increment addrs
+  dump_ram.cpp - dump ram block 256 bytes increment addrs
 
-Instruction set is or will be very different as to how
-it is mapped.  Newest work will map so the ram dump
-looks more like the code (ex. 'dly' appears in the right
-columns for 'delay' and 'lit' for 'literal').
+  prebuilt_uf2.d - new directory - has a prebuilt .UF2 in it
+
+Newest work maps so that the ram dump looks more like
+the code (ex. 'dly' appears in the right columns for
+'delay' and 'lit' for 'literal').
 
 Using more defines (C preprocessor) to differentiate
 between opcodes and inline data.  This has progressed.
 
-Older:
-
-The present work (monitor-dd) demos LIT using both forms
-(the C preprocessor define for it, and opcode 11 - they
-are interchangeable, since cpp simply substitutes the
-one for the other, prior to compilation).
 
 # monitor
 
@@ -36,6 +33,33 @@ at least interacting with it, possibly using a
 command/control loop interface - usually via serial).
 
 # NEWS
+
+A more true 'SRAM' stand-in is now used - the original
+array was declared 'const int memory []' whereas the
+new array drops the 'const' qualifier.
+
+The old one is copied over to the new one, during
+program setup.  The old one is still used to specify
+the program (in its customary mnemonics).
+
+The new buffer is where the switch/case construct looks
+for its instructions (the 'program' that it follows
+and tries to execute .. usually successfully).
+
+The new buffer is
+
+   int RAMSPACE [RAM_SIZE];
+
+ $  egrep RAM_SIZE n_monitor-ff_SKETCH.cpp 
+
+// #define RAM_SIZE 0x1200
+
+   #define RAM_SIZE 0x2C8
+
+   int RAMSPACE [RAM_SIZE];
+
+
+# Older News
 
 op_code table defines altered significantly, with the
 advent of a ram dumper.
