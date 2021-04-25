@@ -1,8 +1,10 @@
 // n_monitor-ff_SKETCH.cpp
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-g.7v - alpha kiyuta iv np: good exceptions."
+#define REVISION_ITCF "0.1.0-g.7z - alpha kiyuta v"
 
-// Sun Apr 25 00:37:26 UTC 2021
+// op_rba active now.
+
+// Sun Apr 25 01:07:07 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -123,8 +125,8 @@ const int memory [] {
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      /* pick one: op_rba  ..  or  ..  op_rmb  .. here: */
      // op_rba,
-     op_rmb,
-     // op_rba,
+     // op_rmb,
+     op_rba,
      op_dts,
 
      /* dump */
