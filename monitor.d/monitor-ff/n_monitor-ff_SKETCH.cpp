@@ -377,6 +377,13 @@ void copy_over(void) {
     for (int i= (RAM_SIZE - 256); i< RAM_SIZE; i++) {
         RAMSPACE[i] = op_nop; // nop
     }
+
+    /* sneak one in, x4 */
+    int i = RAM_SIZE - 77; RAMSPACE[i] = 0x2222; // garbage
+    i = RAM_SIZE - 78; RAMSPACE[i] = 0x2222;
+    i = RAM_SIZE - 79; RAMSPACE[i] = 0x2222;
+    i = RAM_SIZE - 80; RAMSPACE[i] = 0x2222;
+
     for (int i= (RAM_SIZE - 64); i< RAM_SIZE; i++) { // top end
         RAMSPACE[i] = op_exc; // throw exception
     }
@@ -609,6 +616,13 @@ next:
         case op_hxee:
         _hxee:
             // nothing - is a marker instruction only
+            goto next;
+        default:
+            Serial.println("");
+            Serial.println("");
+            Serial.println("   * * *   NO SUCH INSTRUCTION   * * *   ");
+            Serial.println("");
+            Serial.println("");
             goto next;
     }
 }
