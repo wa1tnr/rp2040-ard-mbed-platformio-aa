@@ -1,15 +1,12 @@
-// n_monitor-gg_SKETCH.cpp
+// n_monitor-hh-p_SKETCH.cpp
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-h.0a - alpha mivurnix i np: cc"
+#define REVISION_ITCF "0.1.0-h.0b - alpha mivurnix i np: aa"
 
-// TODO: add command interpreter as a sub-process, made
+// DONE: TODO: add command interpreter as a sub-process, made
 // active by a simpe keystroke (use getch model explored
 // earlier).
 
-// DONE: TODO: make program boundary accurate or meaningful
-// op_rba active now.
-
-// Sun Apr 25 16:07:02 UTC 2021
+// Sun Apr 25 19:35:50 UTC 2021
 
 // was: n_monitor-gg_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -612,7 +609,7 @@ next:
 void setup () {
     Serial.begin (9600);
     pre_serial();
-    setup_second_interpreter();
+    setup_second_interpreter(); /* NEW */
     I = 0;
     S = S0;
     R = R0;
