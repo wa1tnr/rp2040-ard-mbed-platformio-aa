@@ -1,7 +1,8 @@
-// n_monitor-ee_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.7c - alpha kiyuta iii np: tst aa"
+// n_monitor-ff_SKETCH.cpp
+#include <Arduino.h>
+#define REVISION_ITCF "0.1.0-g.7v - alpha kiyuta iv np: good exceptions."
 
-// Sun Apr 25 00:17:17 UTC 2021
+// Sun Apr 25 00:37:26 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -20,7 +21,6 @@
    dump
    from: https://github.com/wa1tnr/Metro-M4-Express-interpreter/blob/master/interpret_m4/interpret_m4.ino
 */
-#include <Arduino.h>
 
 #undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
@@ -255,7 +255,7 @@ const int memory [] {
      // ------------------------------
      // ------------------------------
      // ------------------------------
-     op_ext, // throw a test exception
+     // op_ext, // throw a test exception
      // ------------------------------
      // ------------------------------
      // ------------------------------
