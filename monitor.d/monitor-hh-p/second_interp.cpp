@@ -144,7 +144,8 @@ void dot() {
 /* destructively display top of stack, hex */
 NAMED(_dotHEX, ".h");
 void dotHEX() {
-  Serial.print(0xffff & pop_B(), HEX);
+  // Serial.print(0xffff & pop_B(), HEX);
+  Serial.print(0xffffffff & pop_B(), HEX);
   Serial.print(" ");
 }
 
@@ -315,6 +316,7 @@ const int entries = sizeof dictionary / sizeof dictionary[0];
 
 /* Display all words in dictionary */
 void words(void) {
+  Serial.write(' '); // when ENTER is pressed no space generated
   for (int i = entries - 1; i >= 0; i--) {
     strcpy(namebuf, dictionary[i].name);
     Serial.print(namebuf);
@@ -364,7 +366,7 @@ void ok() {
 byte reading() {
   if (!Serial.available()) return 1; // no exec
   ch = Serial.read();
-  if (ch != '\n') Serial.write(ch); // KLUDGE 25 April 2021
+  if ((ch != '\n') && (ch != ' ')) Serial.write(ch); // KLUDGE 25 April 2021
   if (ch == '\n') {
       // crlf();
       return 0; // without return 0 no execute
@@ -394,6 +396,7 @@ void runword() {
 
   int place = locate();
   if (place != 0) {
+    Serial.write(' '); // pressing ENTER use
     dictionary[place].function();
     ok();
     return;

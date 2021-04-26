@@ -27,8 +27,8 @@
    from: https://github.com/wa1tnr/Metro-M4-Express-interpreter/blob/master/interpret_m4/interpret_m4.ino
 */
 
-#undef ADAFRUIT_ITSY_RP2040_ITCF
 #define ADAFRUIT_ITSY_RP2040_ITCF
+#undef ADAFRUIT_ITSY_RP2040_ITCF
 
 #ifndef ADAFRUIT_ITSY_RP2040_ITCF
     #define UNKNOWN_TARGET_RP2040_ITCF
@@ -369,24 +369,6 @@ void reflash(void) {
     reflash_firmware();
 }
 
-void await_serial(void) {
-}
-
-void pre_serial(void) {
-    delay(700);
-    pinMode(led, OUTPUT);
-    digitalWrite(led, 1);
-    delay(700);
-    digitalWrite(led, 0);
-    delay(700);
-    while (!Serial) {
-        await_serial();
-    }
-    crlf(); // program.h
-    Serial.println(REVISION_ITCF);
-    crlf();
-}
-
 void nopp(void) { } // no operation
 
 void print_newline(void) {
@@ -605,6 +587,28 @@ next:
             Serial.println("");
             goto next;
     }
+}
+
+void await_serial(void) {
+    digitalWrite(led, 1);
+    delay(50);
+    digitalWrite(led, 0);
+    delay(2000);
+}
+
+void pre_serial(void) {
+    delay(700);
+    pinMode(led, OUTPUT);
+    digitalWrite(led, 1);
+    delay(700);
+    digitalWrite(led, 0);
+    delay(700);
+    while (!Serial) {
+        await_serial();
+    }
+    crlf(); // program.h
+    Serial.println(REVISION_ITCF);
+    crlf();
 }
 
 void setup () {
