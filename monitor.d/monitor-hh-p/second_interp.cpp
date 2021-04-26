@@ -269,7 +269,7 @@ void quit() {
 
 /* empty words don't cause an error */
 NAMED(_nop, " ");
-void nop() { }
+void nop() { Serial.println("\r\n\r\n NOP\r\n\r\n"); }
 
 /* Forward declaration required here */
 NAMED(_words, "words");
@@ -364,8 +364,6 @@ byte reading() {
       crlf();
       return 0; // terminal pref 25 apr 2021
   }
-  // if (ch == '\r') return 0;
-  // if (ch == '\r') return 1; // not terminal pref 25 apr 2021
   if (ch == ' ') return 0;
   if (pos_B < maxtib_B) {
     tib_B[pos_B++] = ch;
@@ -395,6 +393,7 @@ void runword() {
     ok();
     return;
   }
+  Serial.print("DIAG runword: place: "); Serial.print(place);
   Serial.println("?");
 }
 
