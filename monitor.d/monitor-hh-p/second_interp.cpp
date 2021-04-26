@@ -372,10 +372,24 @@ byte reading() {
       return 0; // without return 0 no execute
   }
   if (ch == ' ') return 0; // execute on space delimiter, too
+
+// experiment
+  crlf(); Serial.print(" tib before transform: '"); Serial.print(tib_B); Serial.print("'  ");
+  // result: it's one behind. It does not yet have that char.
+  if (ch == '\010') { // backspace
+      Serial.write('\010');
+      if (pos_B > 0) pos_B--;
+      tib_B[pos_B] = 0;
+      return 1;
+  }
+
   if (pos_B < maxtib_B) {
     tib_B[pos_B++] = ch;
     tib_B[pos_B] = 0;
   }
+
+  crlf(); Serial.print(" tib after  transform: '"); Serial.print(tib_B); Serial.print("'  ");
+
   return 1; // no exec
 }
 
