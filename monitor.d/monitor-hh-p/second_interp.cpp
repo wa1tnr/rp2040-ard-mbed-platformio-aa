@@ -158,10 +158,10 @@ void dotShex() {
 /* display whole stack, decimal */
 NAMED(_dotS, ".s");
 void dotS() {
-  Serial.write(' '); // dotS kludge April 26, 2021
+  // Serial.write(' '); // dotS kludge April 26, 2021
   for (int i = 0; i < STKSIZE_B; i++) dot();
-  Serial.write(' '); // dotS kludge April 26, 2021
-  Serial.write(' '); // dotS kludge April 26, 2021
+  // Serial.write(' '); // dotS kludge April 26, 2021
+  // Serial.write(' '); // dotS kludge April 26, 2021
 }
 
 /* delay TOS_B # of milliseconds */
@@ -403,6 +403,7 @@ void runword() {
   }
   if (isNumber()) {
     push_B(number());
+    if (ch == ' ') Serial.write(' ');
     ok();
     return;
   }
@@ -411,7 +412,7 @@ void runword() {
 
   if (*tib_B != '\000') Serial.println("?");
 
-  // if (ch == ' ') Serial.print(" SPACE seen ");
+  if (ch == ' ') Serial.write(' '); // print(" SPACE seen ");
   if ((*tib_B == '\000') && (ch != ' ')) Serial.println(" ok");
 
   if (print_diag) { Serial.print(" OH tib_B is: '"); Serial.print(*tib_B); Serial.println("'"); }
