@@ -319,20 +319,11 @@ byte pos = 0;
 int faked = 0;
 int L = 0; // place to pop into
 
-/*
-extern void words(void);
-extern void setup_second_interpreter(void);
-extern void secondary_Forth_loop(void);
-
-extern void reflash_firmware(void); // prototype
-extern void dumpRAM(void); // dump_ram.cpp
-extern void rdumps(void);
-*/
-
 // #define FILL_CHAR 514
 #define FILL_CHAR 0x4F4F4F4F
 #define xxFILL_CHAR 0x5DDDDDDD
 // #define FILL_CHAR 1
+
 /* copy ROM-like space into RAM-like space: */
 void copy_over(void) {
     int mem_size = sizeof(memory) / 4;

@@ -359,8 +359,11 @@ void ok() {
 byte reading() {
   if (!Serial.available()) return 1;
   ch = Serial.read();
-  Serial.write(ch); // KLUDGE 25 April 2021
-  if (ch == '\n') return 0; // terminal pref 25 apr 2021
+  if (ch != '\n') Serial.write(ch); // KLUDGE 25 April 2021
+  if (ch == '\n') {
+      crlf();
+      return 0; // terminal pref 25 apr 2021
+  }
   // if (ch == '\r') return 0;
   // if (ch == '\r') return 1; // not terminal pref 25 apr 2021
   if (ch == ' ') return 0;
@@ -377,8 +380,6 @@ void readword() {
   pos_B = 0;
   tib_B[0] = 0;
   while (reading());
-  Serial.print('\000'); // Serial.print(tib_B); // KLUDGE 25 April 2021 - was enabled in upstream
-  Serial.print(" ");
 }
 
 /* Run a word via its name */
@@ -386,7 +387,6 @@ void runword() {
   int place = locate();
   if (place != 0) {
     dictionary[place].function();
-    // Serial.println("DEBUG 25 apr: dictionary thing in 'runword' happened already.");
     ok();
     return;
   }
@@ -415,7 +415,7 @@ byte run_secondForth(void) {
   readword();
   runword();
   if (quit_flag) {
-      Serial.println(" SEEN: quit_flag = -1");
+      // Serial.println(" SEEN: quit_flag = -1");
       quit_flag = 0; // reset it
       return 0; // exit secondary loop
   }
@@ -424,8 +424,8 @@ byte run_secondForth(void) {
 
 void secondary_Forth_loop(void) {
     while(run_secondForth());
-    Serial.println("QUIT detected!");
+    // Serial.println("QUIT detected!");
     crlf();
-    Serial.println("RESTARTing.");
+    // Serial.println("RESTARTing.");
 }
 // END.
