@@ -157,7 +157,10 @@ void dotShex() {
 /* display whole stack, decimal */
 NAMED(_dotS, ".s");
 void dotS() {
+  Serial.write(' '); // dotS kludge April 26, 2021
   for (int i = 0; i < STKSIZE_B; i++) dot();
+  Serial.write(' '); // dotS kludge April 26, 2021
+  Serial.write(' '); // dotS kludge April 26, 2021
 }
 
 /* delay TOS_B # of milliseconds */
@@ -352,7 +355,9 @@ int number() {
 char ch;
 
 void ok() {
-  if (ch == '\r') Serial.println("ok");
+  if (ch == '\r') { Serial.println(" ok"); return; }
+  if (ch == '\n') { Serial.println(" ok"); return; }
+  // Serial.print(" what ch was: '"); Serial.write(ch); Serial.print("'  ");
 }
 
 /* Incrementally read command line from serial port */
@@ -361,7 +366,7 @@ byte reading() {
   ch = Serial.read();
   if (ch != '\n') Serial.write(ch); // KLUDGE 25 April 2021
   if (ch == '\n') {
-      crlf();
+      // crlf();
       return 0; // without return 0 no execute
   }
   if (ch == ' ') return 0; // execute on space delimiter, too
@@ -402,6 +407,9 @@ void runword() {
   if (print_diag) { Serial.print("DIAG runword: place: "); Serial.print(place); }
 
   if (*tib_B != '\000') Serial.println("?");
+
+  // if (ch == ' ') Serial.print(" SPACE seen ");
+  if ((*tib_B == '\000') && (ch != ' ')) Serial.println(" ok");
 
   if (print_diag) { Serial.print(" OH tib_B is: '"); Serial.print(*tib_B); Serial.println("'"); }
 
