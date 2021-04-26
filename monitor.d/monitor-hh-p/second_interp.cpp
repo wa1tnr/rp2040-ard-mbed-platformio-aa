@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "program.h"
+#define TWO_INTERPRET_HEADER "\r\nMon 26th  18:46z\r\n"
 
 // Mon Apr 26 13:54:15 UTC 2021
 
@@ -34,6 +35,9 @@ char tib_B[maxtib_B];
 /* buffer required for strings read from flash */
 char namebuf[maxtib_B];
 byte pos_B;
+
+boolean quit_flag = 0;
+boolean comment_open_flag = 0;
 
 /* push n to top of data stack */
 void push_B(int n) {
@@ -161,10 +165,7 @@ void dotShex() {
 /* display whole stack, decimal */
 NAMED(_dotS, ".s");
 void dotS() {
-  // Serial.write(' '); // dotS kludge April 26, 2021
   for (int i = 0; i < STKSIZE_B; i++) dot();
-  // Serial.write(' '); // dotS kludge April 26, 2021
-  // Serial.write(' '); // dotS kludge April 26, 2021
 }
 
 /* delay TOS_B # of milliseconds */
@@ -255,8 +256,6 @@ void rdumps_B() {
     dumpRAM_B();
   }
 }
-
-boolean quit_flag = 0;
 
 NAMED(_quit, "quit");
 void quit() {
@@ -369,23 +368,23 @@ void ok() {
 byte reading() {
   if (!Serial.available()) return 1; // no exec
   ch = Serial.read();
+
+  if (ch == '\\') comment_open_flag = -1; // comments open with '\'
+
   if ((ch != '\n') &&
         (ch != ' ') &&
-
         (ch != '\010')  // new backspace exception
-  // narrative: backspace is permitted beyond the
-  // left boundary of the tib, visually.  Internally
-  // it behaves correctly, but on-screen it permits
-  // a false narrative of what is truly the state
-  // of the system, in that it promotes the idea that
-  // what has gone before, far to the left, may be
-  // subsequently changed.  This is untrue; there
-  // is no line buffer (in this sense) whatsoever, as
-  // an in-stream space character acts identically to
-  // having pressed ENTER at the end of a line, for
-  // the most part.
-
     ) Serial.write(ch);
+
+  if (comment_open_flag) {
+      if (ch == '\n') { return 0; }
+      if (
+          (ch == ' ') ||
+          (ch == '\010')
+      ) Serial.write(ch);
+      return 1;
+  }
+
   if (ch == '\n') {
       return 0; // without return 0 no execute
   }
@@ -402,9 +401,14 @@ byte reading() {
       return 1; // no exec
   }
 
-  if (pos_B < maxtib_B) {
+  if (pos_B <  (maxtib_B - 1)) { // crashed when maxed
     tib_B[pos_B++] = ch;
     tib_B[pos_B] = 0;
+  }
+  if (pos_B == (maxtib_B - 2)) {
+      // Serial.print("  ERROR maxtib  ");
+      Serial.write('!');
+      Serial.write('\010');
   }
   return 1; // no exec
 }
@@ -423,7 +427,6 @@ boolean print_diag = 0; // -1;
 void runword() {
 
   if (print_diag) { Serial.print("tib_B:  '"); Serial.print(tib_B); Serial.println("'"); }
-
   int place = locate();
   if (place != 0) {
     Serial.write(' '); // pressing ENTER use
@@ -467,6 +470,7 @@ void setup_second_interpreter(void) {
 
 byte run_secondForth(void) {
   readword();
+  comment_open_flag = 0;
   runword();
   if (quit_flag) {
       // Serial.println(" SEEN: quit_flag = -1");
@@ -477,6 +481,7 @@ byte run_secondForth(void) {
 }
 
 void secondary_Forth_loop(void) {
+    Serial.println(TWO_INTERPRET_HEADER);
     while(run_secondForth());
     // Serial.println("QUIT detected!");
     crlf();
