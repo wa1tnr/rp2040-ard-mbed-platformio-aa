@@ -357,19 +357,19 @@ void ok() {
 
 /* Incrementally read command line from serial port */
 byte reading() {
-  if (!Serial.available()) return 1;
+  if (!Serial.available()) return 1; // no exec
   ch = Serial.read();
   if (ch != '\n') Serial.write(ch); // KLUDGE 25 April 2021
   if (ch == '\n') {
       crlf();
-      return 0; // terminal pref 25 apr 2021
+      return 0; // without return 0 no execute
   }
-  if (ch == ' ') return 0;
+  if (ch == ' ') return 0; // execute on space delimiter, too
   if (pos_B < maxtib_B) {
     tib_B[pos_B++] = ch;
     tib_B[pos_B] = 0;
   }
-  return 1;
+  return 1; // no exec
 }
 
 /* Block on reading the command line from serial port */
@@ -380,8 +380,13 @@ void readword() {
   while (reading());
 }
 
+boolean print_diag = 0; // -1;
+
 /* Run a word via its name */
 void runword() {
+
+  if (print_diag) { Serial.print("tib_B:  '"); Serial.print(tib_B); Serial.println("'"); }
+
   int place = locate();
   if (place != 0) {
     dictionary[place].function();
@@ -393,8 +398,16 @@ void runword() {
     ok();
     return;
   }
-  Serial.print("DIAG runword: place: "); Serial.print(place);
-  Serial.println("?");
+
+  if (print_diag) { Serial.print("DIAG runword: place: "); Serial.print(place); }
+
+  if (*tib_B != '\000') Serial.println("?");
+
+  if (print_diag) { Serial.print(" OH tib_B is: '"); Serial.print(*tib_B); Serial.println("'"); }
+
+  // runword() executes a dictionary word if it finds one.
+  // it also pushes a number, if it is a number.
+  // both of those actions print the ok prompt.
 }
 
 /* Arduino main loop */
