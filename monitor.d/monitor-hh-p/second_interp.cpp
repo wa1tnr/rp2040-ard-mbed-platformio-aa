@@ -20,8 +20,8 @@ const int STKMASK_B = 7;
 int stack_B[STKSIZE_B];
 int p_B = 0;
 
-/* TOS is Top Of Stack */
-#define TOS stack_B[p_B]
+/* TOS_B is Top Of Stack */
+#define TOS_B stack_B[p_B]
 /* NAMED creates a string in flash */
 #define NAMED(x, y) const char x[]=y
 
@@ -35,12 +35,12 @@ byte pos_B;
 /* push n to top of data stack */
 void push_B(int n) {
   p_B = (p_B + 1)& STKMASK_B;
-  TOS = n;
+  TOS_B = n;
 }
 
 /* return top of stack */
 int pop_B() {
-  int n = TOS;
+  int n = TOS_B;
   p_B = (p_B - 1)& STKMASK_B;
   return n;
 }
@@ -69,7 +69,7 @@ void back() {
 /* copy top of stack */
 NAMED(_dup, "dup");
 void dup() {
-  push_B(TOS);
+  push_B(TOS_B);
 }
 
 /* exchange top two stack items */
@@ -98,40 +98,40 @@ void over() {
 NAMED(_add, "+");
 void add() {
   int a = pop_B();
-  TOS = a + TOS;
+  TOS_B = a + TOS_B;
 }
 
 /* bitwise and top two items */
 NAMED(_and, "and");
 void and_() {
   int a = pop_B();
-  TOS = a & TOS;
+  TOS_B = a & TOS_B;
 }
 
 /* inclusive or top two items */
 NAMED(_or, "or");
 void or_() {
   int a = pop_B();
-  TOS = a | TOS;
+  TOS_B = a | TOS_B;
 }
 
 /* exclusive or top two items */
 NAMED(_xor, "xor");
 void xor_() {
   int a = pop_B();
-  TOS = a ^ TOS;
+  TOS_B = a ^ TOS_B;
 }
 
 /* invert all bits in top of stack */
 NAMED(_invert, "invert");
 void invert() {
-  TOS = ~(TOS);
+  TOS_B = ~(TOS_B);
 }
 
 /* negate top of stack */
 NAMED(_negate, "negate");
 void negate() {
-  TOS = -(TOS);
+  TOS_B = -(TOS_B);
 }
 
 /* destructively display top of stack, decimal */
@@ -160,13 +160,13 @@ void dotS() {
   for (int i = 0; i < STKSIZE_B; i++) dot();
 }
 
-/* delay TOS # of milliseconds */
+/* delay TOS_B # of milliseconds */
 NAMED(_delay, "delay");
 void del() {
   delay(pop_B());
 }
 
-/* Toggle pin at TOS and delay(spd), repeat... */
+/* Toggle pin at TOS_B and delay(spd), repeat... */
 NAMED(_wiggle, "wiggle");
 void wiggle() {
   int a = pop_B();
@@ -179,37 +179,37 @@ void wiggle() {
   }
 }
 
-/* TOS is pin number, set it HIGH */
+/* TOS_B is pin number, set it HIGH */
 NAMED(_high, "high");
 void high() {
   digitalWrite(pop_B(), HIGH);
 }
 
-/* set TOS pin LOW */
+/* set TOS_B pin LOW */
 NAMED(_low, "low");
 void low() {
   digitalWrite(pop_B(), LOW);
 }
 
-/* read TOS pin */
+/* read TOS_B pin */
 NAMED(_in, "in");
 void in() {
-  TOS = digitalRead(TOS);
+  TOS_B = digitalRead(TOS_B);
 }
 
-/* make TOS pin an input */
+/* make TOS_B pin an input */
 NAMED(_input, "input");
 void input() {
   pinMode(pop_B(), INPUT);
 }
 
-/* make TOS pin an output */
+/* make TOS_B pin an output */
 NAMED(_output, "output");
 void output() {
   pinMode(pop_B(), OUTPUT);
 }
 
-/* make TOS pin an input with weak pullup */
+/* make TOS_B pin an input with weak pullup */
 NAMED(_input_pullup, "input_pullup");
 void input_pullup() {
   pinMode(pop_B(), INPUT_PULLUP);
@@ -409,12 +409,6 @@ void blink_three(void) {
 void setup_second_interpreter(void) {
   pinMode(13, 1); // Feather RP2040 LED
   blink_three();
-
-  // Serial.begin(9600);
-  // while (!Serial);
-  // Serial.println ("Forth-like interpreter:");
-  // words();
-  // Serial.println();
 }
 
 byte run_secondForth(void) {
@@ -431,15 +425,7 @@ byte run_secondForth(void) {
 void secondary_Forth_loop(void) {
     while(run_secondForth());
     Serial.println("QUIT detected!");
-    Serial.println();
+    crlf();
     Serial.println("RESTARTing.");
 }
-
-// Sun Apr 25 17:23:54 UTC 2021
-
-
-// extern void setup_second_interpreter(void);
-// extern void secondary_Forth_loop(void);
-
-
-
+// END.
