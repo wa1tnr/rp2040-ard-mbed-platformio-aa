@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include "program.h"
+
+// Mon Apr 26 13:54:15 UTC 2021
+
 /* Tiny interpreter,
    similar to myforth's Standalone Interpreter
    This example code is in the public domain */
@@ -366,30 +369,22 @@ void ok() {
 byte reading() {
   if (!Serial.available()) return 1; // no exec
   ch = Serial.read();
-  if ((ch != '\n') && (ch != ' ')) Serial.write(ch); // KLUDGE 25 April 2021
+  if ((ch != '\n') && (ch != ' ')) Serial.write(ch);
   if (ch == '\n') {
-      // crlf();
       return 0; // without return 0 no execute
   }
   if (ch == ' ') return 0; // execute on space delimiter, too
 
-// experiment
-  crlf(); Serial.print(" tib before transform: '"); Serial.print(tib_B); Serial.print("'  ");
-  // result: it's one behind. It does not yet have that char.
   if (ch == '\010') { // backspace
-      Serial.write('\010');
       if (pos_B > 0) pos_B--;
       tib_B[pos_B] = 0;
-      return 1;
+      return 1; // no exec
   }
 
   if (pos_B < maxtib_B) {
     tib_B[pos_B++] = ch;
     tib_B[pos_B] = 0;
   }
-
-  crlf(); Serial.print(" tib after  transform: '"); Serial.print(tib_B); Serial.print("'  ");
-
   return 1; // no exec
 }
 

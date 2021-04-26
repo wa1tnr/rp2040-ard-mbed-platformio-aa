@@ -1,13 +1,13 @@
 // n_monitor-hh-p_SKETCH.cpp
 #include <Arduino.h>
 #include "program.h"
-#define REVISION_ITCF "0.1.0-h.0d - alpha tupelo feather_rp2040 i np: aa"
+#define REVISION_ITCF "0.1.0-h.0e - alpha tupelo feather_rp2040 i np: aa"
 
 // DONE: TODO: add command interpreter as a sub-process, made
 // active by a simpe keystroke (use getch model explored
 // earlier).
 
-// Mon Apr 26 03:15:35 UTC 2021
+// Mon Apr 26 13:54:15 UTC 2021
 
 // was: n_monitor-gg_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
