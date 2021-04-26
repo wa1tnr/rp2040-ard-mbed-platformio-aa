@@ -369,7 +369,23 @@ void ok() {
 byte reading() {
   if (!Serial.available()) return 1; // no exec
   ch = Serial.read();
-  if ((ch != '\n') && (ch != ' ')) Serial.write(ch);
+  if ((ch != '\n') &&
+        (ch != ' ') &&
+
+        (ch != '\010')  // new backspace exception
+  // narrative: backspace is permitted beyond the
+  // left boundary of the tib, visually.  Internally
+  // it behaves correctly, but on-screen it permits
+  // a false narrative of what is truly the state
+  // of the system, in that it promotes the idea that
+  // what has gone before, far to the left, may be
+  // subsequently changed.  This is untrue; there
+  // is no line buffer (in this sense) whatsoever, as
+  // an in-stream space character acts identically to
+  // having pressed ENTER at the end of a line, for
+  // the most part.
+
+    ) Serial.write(ch);
   if (ch == '\n') {
       return 0; // without return 0 no execute
   }
@@ -378,7 +394,10 @@ byte reading() {
   // backspace is destructive, always - you must retype.
 
   if (ch == '\010') { // backspace
-      if (pos_B > 0) pos_B--;
+      if (pos_B > 0) {
+          pos_B--;
+          Serial.write(ch);
+      }
       tib_B[pos_B] = 0;
       return 1; // no exec
   }
