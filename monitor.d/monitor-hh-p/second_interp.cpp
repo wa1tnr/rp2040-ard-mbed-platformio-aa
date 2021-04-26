@@ -375,6 +375,20 @@ byte reading() {
   }
   if (ch == ' ') return 0; // execute on space delimiter, too
 
+  // backspace is destructive, always - you must retype.
+  // however, on-terminal representation of this is not destructive,
+  // so you have a 'guide' to work from when retyping something complex.
+
+  // The result is a tib_B composed with the intended utterance.
+  // Just remember that you must retype what was backspaced 'over'
+  // as backspace is always destructive.
+
+  // The current behavior mixes traditional terminal behaviors;
+  // it's like a left-cursor key combined with a backspace key:
+  // it destroys the existing work by 'backspacing over it' and
+  // that is standard; but it preserves what was destroyed on-screen,
+  // which is the same screen behavior as a left-cursor keystroke.
+
   if (ch == '\010') { // backspace
       if (pos_B > 0) pos_B--;
       tib_B[pos_B] = 0;
