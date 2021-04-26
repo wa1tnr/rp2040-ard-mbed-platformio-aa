@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "program.h"
 /* Tiny interpreter,
    similar to myforth's Standalone Interpreter
    This example code is in the public domain */
@@ -272,7 +273,7 @@ void nop() { }
 
 /* Forward declaration required here */
 NAMED(_words, "words");
-void words();
+void words(void);
 
 /* table of names and function addresses in flash */
 const entry dictionary[] = {
@@ -310,7 +311,7 @@ const entry dictionary[] = {
 const int entries = sizeof dictionary / sizeof dictionary[0];
 
 /* Display all words in dictionary */
-void words() {
+void words(void) {
   for (int i = entries - 1; i >= 0; i--) {
     strcpy(namebuf, dictionary[i].name);
     Serial.print(namebuf);
@@ -328,10 +329,7 @@ int locate() {
     // Serial.println("DEBUG inside loop locate");
     strcpy(namebuf, dictionary[i].name);
     // if (!strcmp(tib_B, namebuf)) return i;
-    if (!strcmp(tib_B, namebuf)) {
-        Serial.print(" found i: "); Serial.println(i);
-        return i; // just this in production version and no curly braces
-    }
+    if (!strcmp(tib_B, namebuf)) return i; // index 'i' sketchy 25 April 2021
   }
   return 0;
 }
@@ -415,8 +413,8 @@ void setup_second_interpreter(void) {
   // Serial.begin(9600);
   // while (!Serial);
   // Serial.println ("Forth-like interpreter:");
-  words();
-  Serial.println();
+  // words();
+  // Serial.println();
 }
 
 byte run_secondForth(void) {
@@ -433,7 +431,6 @@ byte run_secondForth(void) {
 void secondary_Forth_loop(void) {
     while(run_secondForth());
     Serial.println("QUIT detected!");
-    delay(3000);
     Serial.println();
     Serial.println("RESTARTing.");
 }

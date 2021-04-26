@@ -1,12 +1,13 @@
 // n_monitor-hh-p_SKETCH.cpp
 #include <Arduino.h>
-#define REVISION_ITCF "0.1.0-h.0b - alpha mivurnix i np: aa"
+#include "program.h"
+#define REVISION_ITCF "0.1.0-h.0c - alpha tupelo feather_rp2040 i np: aa"
 
 // DONE: TODO: add command interpreter as a sub-process, made
 // active by a simpe keystroke (use getch model explored
 // earlier).
 
-// Sun Apr 25 19:35:50 UTC 2021
+// Mon Apr 26 01:06:59 UTC 2021
 
 // was: n_monitor-gg_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -102,7 +103,7 @@ int W = 0; // working register
 #define op_rfl       0x6C6672 + _nop_hxlg
 #define op_dly       0x796C64 + _nop_hxlg
 // #define op_getch 3
-#define op_getch     0x79656B + _nop_hxlg // 'key' char y . char e . char k . 79 65 6B  ok
+#define op_key       0x79656B + _nop_hxlg // 'key' char y . char e . char k . 79 65 6B  ok
 
 #define op_push 4
 #define op_pop 5
@@ -152,6 +153,8 @@ const int memory [] {
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
      op_dts,
 
+     op_key,
+     op_rfl,
      /* dump */
 
      op_lit, c_newline, op_lit, c_return, op_emit, op_emit,
@@ -241,7 +244,7 @@ const int memory [] {
      // ------------------------------
      // ------------------------------
      // ------------------------------
-     op_getch,
+     op_key,
      op_rfl,
 
      op_lit, 0, op_lit, 7, op_lit, 14, op_lit, 21, op_lit, 28, op_lit, 35, op_lit, 42, op_lit, 49,
@@ -316,12 +319,15 @@ byte pos = 0;
 int faked = 0;
 int L = 0; // place to pop into
 
+/*
+extern void words(void);
 extern void setup_second_interpreter(void);
 extern void secondary_Forth_loop(void);
 
 extern void reflash_firmware(void); // prototype
 extern void dumpRAM(void); // dump_ram.cpp
 extern void rdumps(void);
+*/
 
 // #define FILL_CHAR 514
 #define FILL_CHAR 0x4F4F4F4F
@@ -385,8 +391,9 @@ void pre_serial(void) {
     while (!Serial) {
         await_serial();
     }
+    crlf(); // program.h
     Serial.println(REVISION_ITCF);
-    delay(3000);
+    crlf();
 }
 
 void nopp(void) { } // no operation
@@ -470,21 +477,23 @@ next:
             delay(L);
             goto next;
 
-        case op_getch:
-        _getch:
-            Serial.print(" op_getch");
+        case op_key:
+        _key:
+            crlf();
+            Serial.print(" op_key");
+            crlf();
             ch = '\000';
             if (Serial.available() > 0) ch = Serial.read();
-            // Serial.println("TADA!"); delay(5000);
-            Serial.println();
-            Serial.println("entering Forth-like Interpreter - secondary"); delay(1000);
-            Serial.println();
-            Serial.println("type: 'words' for vocabulary list.");
+            crlf();
+            Serial.println("entering Forth-like Interpreter - secondary");
+            crlf();
+            words();
+            crlf();
+            crlf();
             secondary_Forth_loop();
-            Serial.println();
+            crlf();
             Serial.println("EXITED secondary interpreter.");
-            Serial.println();
-            delay(2000);
+            crlf();
             goto next;
 
         case op_push: // forbidden idiom - maybe - use LIT instead
@@ -513,6 +522,7 @@ next:
 
         case op_rfl:
         _reflash:
+            crlf();
             Serial.print(" op_rfl");
             Serial.print(" delay 2 seconds..");
             delay(2000);
