@@ -6,6 +6,9 @@
     [ https://github.com/earlephilhower/arduino-pico/discussions/378 ]
  */
 
+#include <Arduino.h>
+#include "program.h"
+
 #define newline(x) Serial.println(x)
 
 bool led_state;
@@ -18,44 +21,49 @@ void toggle_led(void) {
 // ENiD,
 
 void setup() {
-  Serial.begin(115200);
-  delay(30000);
-  Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n\n", PIN_SERIAL1_TX, PIN_SERIAL2_RX);
-  Serial1.begin(115200);
-  Serial2.begin(115200);
+    // reflash_firmware();
+    Serial.begin(115200);
+    delay(30000);
+    Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n\n",
+                  PIN_SERIAL1_TX, PIN_SERIAL2_RX);
+    Serial1.begin(115200);
+    Serial2.begin(115200);
 
-  pinMode(LED_BUILTIN, 1); // output
-  for (int count = 7; count > 0; count--) {
-      toggle_led();
-    // digitalWrite(LED_BUILTIN, 1); // ON
-    delay(70);
-    toggle_led();
-      // digitalWrite(LED_BUILTIN, 0); // OFF
-    delay(800);
-  }
+    pinMode(LED_BUILTIN, 1); // output
+    for (int count = 7; count > 0; count--) {
+        toggle_led();
+        delay(70);
+        toggle_led();
+        delay(800);
+    }
+    reflash_firmware();
+    while(-1); // HOLD/KLUDGE
 }
 
 void loop() {
-  Serial.printf("S2 avail: %d\n", Serial2.available());
-  Serial1.write('a');
-  newline('4');
-  newline(" four ");
-  delay(1000);
-  Serial.printf("S2 avail: %d\n", Serial2.available());
-  Serial1.write('b');
-  delay(1000);
-  Serial.printf("S2 avail: %d\n", Serial2.available());
-  Serial1.write('c');
-  delay(1000);
-  Serial.printf("S2 avail: %d\n", Serial2.available());
-  Serial1.printf("defg");
-  delay(1000);
-  Serial.printf("S2 avail: %d\n", Serial2.available());
-  delay(1000);
-  while (Serial2.available()) {
-    Serial.printf("S2 read: '%c'\n", Serial2.read());
-  }
-  delay(10000);
+    for (int iterations = 3; iterations > 0; iterations++) {
+        Serial.printf("S2 avail: %d\n", Serial2.available());
+        Serial1.write('a');
+        newline('4');
+        newline(" four ");
+        delay(1000);
+        Serial.printf("S2 avail: %d\n", Serial2.available());
+        Serial1.write('b');
+        delay(1000);
+        Serial.printf("S2 avail: %d\n", Serial2.available());
+        Serial1.write('c');
+        delay(1000);
+        Serial.printf("S2 avail: %d\n", Serial2.available());
+        Serial1.printf("defg");
+        delay(1000);
+        Serial.printf("S2 avail: %d\n", Serial2.available());
+        delay(1000);
+        while (Serial2.available()) {
+            Serial.printf("S2 read: '%c'\n", Serial2.read());
+        }
+        delay(10000);
+    }
+    reflash_firmware();
 }
 
 // END.
