@@ -27,7 +27,7 @@ void setup() {
     // GPIO0  PIN_SERIAL1_TX
     // GPIO9  PIN_SERIAL2_RX
     newline();
-    newline("Sunday 26 Dec 2021");
+    newline("Sun 26 Dec 01:54:01 UTC 2021");
     Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n\n",
                   PIN_SERIAL1_TX, PIN_SERIAL2_RX);
     Serial1.begin(115200);
