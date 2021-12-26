@@ -29,21 +29,46 @@ void toggle_led(void) {
     digitalWrite(LED_BUILTIN, led_state);
 }
 
-void setup(void) {
-    // reflash_firmware();
+void blinking(void) {
+    bool fledstate;
+    for (volatile int slowness = 14255; slowness > 0; slowness--) {
+        for (volatile int slower = 1777; slower > 0; slower--) {
+            fledstate = !fledstate;
+            digitalWrite(3, fledstate);
+        }
+    }
+    toggle_led();
+}
+
+void setup_gpio(void) {
+    pinMode(LED_BUILTIN, 1); // output
+    digitalWrite(LED_BUILTIN, 0); // off
+    pinMode(3, 1); // output
+    digitalWrite(3, 0); // off
+}
+
+void setup_serial(void) {
     Serial.begin(115200); // USB
-    delay(4000);
-    if (SERIAL_REQUIRED) { while (!Serial); }
-    newline();
-    newline("Sun 26 Dec 17:05:28 UTC 2021");
+    // if (SERIAL_REQUIRED) { while (!Serial); }
+    if (SERIAL_REQUIRED) { while (!Serial) { blinking(); }; }
+    if (! SERIAL_REQUIRED) { delay(1500); }
     // GPIO0  PIN_SERIAL1_TX
     // GPIO9  PIN_SERIAL2_RX
+    delay(600);
     Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n",
                   PIN_SERIAL1_TX, PIN_SERIAL2_RX); // decodes these symbols and prints to the user
     Serial1.begin(115200); // USART
     Serial2.begin(115200); // USART - that's *three* Serial.begin()'s .. wow.
+}
 
-    pinMode(LED_BUILTIN, 1); // output
+void setup(void) {
+    // reflash_firmware();
+    delay(400);
+    setup_gpio();
+    setup_serial();
+    newline();
+    newline("Sun 26 Dec 17:24:32 UTC 2021");
+
     for (int count = 7; count > 0; count--) {
         toggle_led();
         delay(70);
