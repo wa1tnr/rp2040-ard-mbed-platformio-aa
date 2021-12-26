@@ -1,5 +1,5 @@
 
- [ https://github.com/wa1tnr/rp2040-arduino-basics-a/tree/dvlp-aa/multicore.d/mci-two-way-ser-aa ]
+ [ https://github.com/wa1tnr/rp2040-arduino-basics-a/tree/dvlp-aa/multicore.d/mci-two-way-ser-bb ]
 
 Sun 26 Dec 13:11:22 UTC 2021
 
