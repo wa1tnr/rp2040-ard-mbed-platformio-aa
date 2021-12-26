@@ -30,15 +30,24 @@ void toggle_led(void) {
     digitalWrite(LED_BUILTIN, led_state);
 }
 
-void blinking(void) {
+void pips(void) {
     bool fledstate;
-    for (volatile int slowness = 142; slowness > 0; slowness--) {
-        for (volatile int slower = 1777; slower > 0; slower--) {
-            fledstate = !fledstate;
-            digitalWrite(3, fledstate);
-        }
+    for (volatile int slower = 1777; slower > 0; slower--) {
+        fledstate = !fledstate;
+        digitalWrite(3, fledstate);
     }
+}
+
+void blinking(void) {
+    digitalWrite(LED_BUILTIN, 1);
+    // short delay:
+    pips();
     toggle_led();
+    // long delay:
+// 144 nice rapid heartbeat rate
+    for (volatile int slowness = 1444; slowness > 0; slowness--) {
+        pips();
+    }
 }
 
 void setup_gpio(void) {
@@ -48,6 +57,8 @@ void setup_gpio(void) {
     digitalWrite(3, 0); // off
 }
 
+void darkled(void) { digitalWrite(LED_BUILTIN, 0); }
+
 void setup_serial(void) {
     Serial.begin(115200); // USB
     // if (SERIAL_REQUIRED) { while (!Serial); }
@@ -56,6 +67,7 @@ void setup_serial(void) {
     // GPIO0  PIN_SERIAL1_TX
     // GPIO9  PIN_SERIAL2_RX
     delay(600);
+    darkled();
     Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n",
                   PIN_SERIAL1_TX, PIN_SERIAL2_RX); // decodes these symbols and prints to the user
     Serial1.begin(115200); // USART
