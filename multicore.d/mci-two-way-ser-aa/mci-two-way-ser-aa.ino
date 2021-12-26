@@ -44,7 +44,7 @@ void blinking(void) {
     pips();
     toggle_led();
     // long delay:
-// 144 nice rapid heartbeat rate
+
     for (volatile int slowness = 1444; slowness > 0; slowness--) {
         pips();
     }
@@ -117,6 +117,7 @@ void loop() {
         Serial.printf("\n");
         while (Serial2.available()) {
             Serial.printf("S2 read: '%c'   ", Serial2.read());
+            delay(190);
         }
         Serial.printf("\n");
         delay(4000);
