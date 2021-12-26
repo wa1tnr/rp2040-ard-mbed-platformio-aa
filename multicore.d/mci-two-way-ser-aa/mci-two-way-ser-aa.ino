@@ -1,6 +1,6 @@
 // mci-two-way-ser-aa.ino
 
-// Sun Dec 26 13:14:40 UTC 2021
+// Sun 26 Dec 16:59:05 UTC 2021
 
 /*
     [ https://github.com/earlephilhower/arduino-pico/discussions/378 ]
@@ -12,6 +12,17 @@
 #define newline(x) Serial.println(x)
 
 
+#define REQUIRE_SERIAL_CONNECTION
+#undef  REQUIRE_SERIAL_CONNECTION
+
+#ifdef REQUIRE_SERIAL_CONNECTION
+  #define SERIAL_REQUIRED -1
+#endif
+
+#ifndef REQUIRE_SERIAL_CONNECTION
+  #define SERIAL_REQUIRED  0
+#endif
+
 void toggle_led(void) {
     bool led_state;
     led_state = !led_state;
@@ -22,11 +33,12 @@ void setup(void) {
     // reflash_firmware();
     Serial.begin(115200); // USB
     delay(4000);
+    if (SERIAL_REQUIRED) { while (!Serial); }
+    newline();
+    newline("Sun 26 Dec 16:59:05 UTC 2021");
     // GPIO0  PIN_SERIAL1_TX
     // GPIO9  PIN_SERIAL2_RX
-    newline();
-    newline("Sun Dec 26 13:14:40 UTC 2021");
-    Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n\n",
+    Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n",
                   PIN_SERIAL1_TX, PIN_SERIAL2_RX); // decodes these symbols and prints to the user
     Serial1.begin(115200); // USART
     Serial2.begin(115200); // USART - that's *three* Serial.begin()'s .. wow.
@@ -46,7 +58,7 @@ void loop() {
     int loop_count = 0;
     for (int iterations = 3; iterations > 0; iterations--) { // do it three times then reflash
         loop_count++;
-        Serial.printf("loop count: %d   ", loop_count);
+        Serial.printf("\nloop count: %d   ", loop_count);
         Serial.printf("\n");
         Serial.printf("S2 avail: %d   ", Serial2.available());
         Serial1.write('a');
