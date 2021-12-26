@@ -46,27 +46,27 @@ void loop() {
     int loop_count = 0;
     for (int iterations = 3; iterations > 0; iterations--) { // do it three times then reflash
         loop_count++;
-        Serial.printf("loop count: %d\t", loop_count);
+        Serial.printf("loop count: %d   ", loop_count);
         Serial.printf("\n");
-        Serial.printf("S2 avail: %d\t", Serial2.available());
+        Serial.printf("S2 avail: %d   ", Serial2.available());
         Serial1.write('a');
         // newline('4');  // test code for the 'newline()' cpp macro
         // newline(" four ");
         delay(1000);
-        Serial.printf("S2 avail: %d\t", Serial2.available());
+        Serial.printf("S2 avail: %d   ", Serial2.available());
         Serial1.write('b');
         delay(1000);
-        Serial.printf("S2 avail: %d\t", Serial2.available());
+        Serial.printf("S2 avail: %d   ", Serial2.available());
         Serial1.write('c');
         delay(1000);
-        Serial.printf("S2 avail: %d\t", Serial2.available());
+        Serial.printf("S2 avail: %d   ", Serial2.available());
         Serial1.printf("defg");
         delay(1000);
-        Serial.printf("S2 avail: %d\t", Serial2.available());
+        Serial.printf("S2 avail: %d   ", Serial2.available());
         delay(1000);
         Serial.printf("\n");
         while (Serial2.available()) {
-            Serial.printf("S2 read: '%c'\t", Serial2.read());
+            Serial.printf("S2 read: '%c'   ", Serial2.read());
         }
         Serial.printf("\n");
         delay(4000);
