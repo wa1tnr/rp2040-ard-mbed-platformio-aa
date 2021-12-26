@@ -23,7 +23,11 @@ void toggle_led(void) {
 void setup() {
     // reflash_firmware();
     Serial.begin(115200);
-    delay(30000);
+    delay(8000);
+    // GPIO1 Serial1 TX
+    // GPIO7 Serial2 RX
+    newline();
+    newline("Sunday 26 Dec 2021");
     Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n\n",
                   PIN_SERIAL1_TX, PIN_SERIAL2_RX);
     Serial1.begin(115200);
@@ -36,12 +40,12 @@ void setup() {
         toggle_led();
         delay(800);
     }
-    reflash_firmware();
-    while(-1); // HOLD/KLUDGE
+    // reflash_firmware();
+    // while(-1); // HOLD/KLUDGE
 }
 
 void loop() {
-    for (int iterations = 3; iterations > 0; iterations++) {
+    for (int iterations = 3; iterations > 0; iterations--) {
         Serial.printf("S2 avail: %d\n", Serial2.available());
         Serial1.write('a');
         newline('4');
