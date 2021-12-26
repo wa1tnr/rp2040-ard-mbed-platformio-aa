@@ -1,6 +1,6 @@
 // mci-two-way-ser-aa.ino
 
-// Sun 26 Dec 16:59:05 UTC 2021
+// Sun 26 Dec 17:05:28 UTC 2021
 
 /*
     [ https://github.com/earlephilhower/arduino-pico/discussions/378 ]
@@ -13,7 +13,7 @@
 
 
 #define REQUIRE_SERIAL_CONNECTION
-#undef  REQUIRE_SERIAL_CONNECTION
+// #undef  REQUIRE_SERIAL_CONNECTION
 
 #ifdef REQUIRE_SERIAL_CONNECTION
   #define SERIAL_REQUIRED -1
@@ -35,7 +35,7 @@ void setup(void) {
     delay(4000);
     if (SERIAL_REQUIRED) { while (!Serial); }
     newline();
-    newline("Sun 26 Dec 16:59:05 UTC 2021");
+    newline("Sun 26 Dec 17:05:28 UTC 2021");
     // GPIO0  PIN_SERIAL1_TX
     // GPIO9  PIN_SERIAL2_RX
     Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n",
