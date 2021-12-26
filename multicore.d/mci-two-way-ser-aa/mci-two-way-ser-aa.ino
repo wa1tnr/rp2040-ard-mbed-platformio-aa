@@ -1,6 +1,6 @@
 // mci-two-way-ser-aa.ino
 
-// Sat Dec 25 23:36:04 UTC 2021
+// Sun Dec 26 01:52:15 UTC 2021
 
 /*
     [ https://github.com/earlephilhower/arduino-pico/discussions/378 ]
@@ -24,8 +24,8 @@ void setup() {
     // reflash_firmware();
     Serial.begin(115200);
     delay(8000);
-    // GPIO1 Serial1 TX
-    // GPIO7 Serial2 RX
+    // GPIO0  PIN_SERIAL1_TX
+    // GPIO9  PIN_SERIAL2_RX
     newline();
     newline("Sunday 26 Dec 2021");
     Serial.printf("Connect %d (Serial1 TX) to %d (Serial2 RX)\n\n",
