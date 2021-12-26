@@ -25,13 +25,14 @@
 
 void toggle_led(void) {
     bool led_state;
+    led_state = digitalRead(LED_BUILTIN);
     led_state = !led_state;
     digitalWrite(LED_BUILTIN, led_state);
 }
 
 void blinking(void) {
     bool fledstate;
-    for (volatile int slowness = 14255; slowness > 0; slowness--) {
+    for (volatile int slowness = 142; slowness > 0; slowness--) {
         for (volatile int slower = 1777; slower > 0; slower--) {
             fledstate = !fledstate;
             digitalWrite(3, fledstate);
