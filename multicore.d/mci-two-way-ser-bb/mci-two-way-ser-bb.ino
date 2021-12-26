@@ -1,6 +1,6 @@
 // mci-two-way-ser-aa.ino
 
-// Sun 26 Dec 18:44:56 UTC 2021
+// Sun 26 Dec 21:37:04 UTC 2021
 
 /*
     [ https://github.com/earlephilhower/arduino-pico/discussions/378 ]
@@ -80,7 +80,7 @@ void setup(void) {
     setup_gpio();
     setup_serial();
     newline();
-    newline("Sun 26 Dec 18:44:56 UTC 2021");
+    newline("Sun 26 Dec 21:37:04 UTC 2021");
 
     for (int count = 5; count > 0; count--) {
         toggle_led();
