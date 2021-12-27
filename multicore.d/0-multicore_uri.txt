@@ -1,0 +1,1 @@
+[ https://arduino-pico.readthedocs.io/en/latest/multicore.html ]
