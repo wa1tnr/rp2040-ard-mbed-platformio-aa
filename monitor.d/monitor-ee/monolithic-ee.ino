@@ -108,8 +108,8 @@ int W = 0; // working register
 #define op_branch 7
 #define op_one_plus 9
 #define op_dts       0x737464 + _nop_hxlg
-#define op_pon       0x6E6F70 + _nop_hxlg
-#define op_pof       0x666F70 + _nop_hxlg
+#define op_pon       0x7E
+#define op_pof       0x6E
 #define op_dump      0x706D64 + _nop_hxlg
 #define op_emit      0x746D65 + _nop_hxlg
 #define op_romptr 16
