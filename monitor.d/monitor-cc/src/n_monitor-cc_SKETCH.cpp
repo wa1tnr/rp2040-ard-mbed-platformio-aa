@@ -220,7 +220,7 @@ void pre_serial(void) {
     Serial.println("using MBED compiler and core");
 #endif
 
-    Serial.println("unique X0bi");
+    Serial.println("unique D5wX");
     Serial.println(REVISION_ITCF);
 }
 
