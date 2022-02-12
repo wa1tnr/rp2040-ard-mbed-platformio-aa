@@ -200,6 +200,8 @@ void reflash(void) {
 void await_serial(void) {
 }
 
+extern void clear_shift_reg(void);
+
 void pre_serial(void) {
     delay(700);
     while (!Serial) {
@@ -317,6 +319,7 @@ next:
 
 void setup () {
     Serial.begin (9600);
+    clear_shift_reg();
     pre_serial();
     I = 0;
     S = S0;
