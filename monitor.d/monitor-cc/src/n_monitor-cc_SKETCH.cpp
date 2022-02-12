@@ -1,5 +1,7 @@
 // n_monitor-cc_SKETCH.cpp
 #define REVISION_ITCF "0.1.0-g.0 - new minimal alpha"
+#include "compatibility.h"
+
 // Thu Apr 22 01:31:30 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
@@ -172,7 +174,9 @@ const byte maxtib = 16;
 char tib[maxtib];
 byte pos = 0;
 
+#ifdef NOT_USING_MBED
 extern void reflash_firmware(void); // prototype
+#endif
 
 /* push n to top of data stack */
 void push(int n) {
@@ -188,7 +192,9 @@ int pop() {
 }
 
 void reflash(void) {
+#ifdef NOT_USING_MBED
     reflash_firmware();
+#endif
 }
 
 void await_serial(void) {
@@ -199,6 +205,8 @@ void pre_serial(void) {
     while (!Serial) {
         await_serial();
     }
+    delay(800);
+    Serial.println("unique wjpq");
     Serial.println(REVISION_ITCF);
 }
 
