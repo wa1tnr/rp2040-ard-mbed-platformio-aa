@@ -208,7 +208,19 @@ void pre_serial(void) {
         await_serial();
     }
     delay(800);
-    Serial.println("unique wjpq");
+#ifdef NOT_USING_MBED
+    Serial.println("using Earle Philhower core");
+#endif
+
+#ifdef USING_PLATFORMIO_MBED
+    Serial.println("using platformio");
+#endif
+
+#ifndef NOT_USING_MBED
+    Serial.println("using MBED compiler and core");
+#endif
+
+    Serial.println("unique X0bi");
     Serial.println(REVISION_ITCF);
 }
 
