@@ -66,6 +66,8 @@ void clear_shift_reg(void) {
     ledval = 0 + 2 + 4 + 0 +  0 +  0 +  0 +   0; // '1'
     position = 29 ; flash_digit();
     delay(350);
+
+    blankleds();
 }
 
 // END.
