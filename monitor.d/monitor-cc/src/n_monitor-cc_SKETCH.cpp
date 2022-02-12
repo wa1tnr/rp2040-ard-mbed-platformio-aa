@@ -1,8 +1,7 @@
 // n_monitor-cc_SKETCH.cpp
-#define REVISION_ITCF "0.1.0-g.0 - new minimal alpha"
+// Sat 12 Feb 22:04:19 UTC 2022
+#define REVISION_ITCF "0.1.0-h.2 - new minimal alpha"
 #include "compatibility.h"
-
-// Thu Apr 22 01:31:30 UTC 2021
 
 // was: n_monitor-bb_SKETCH.cpp
 // was: forth-aa_SKETCH.cpp
@@ -220,7 +219,7 @@ void pre_serial(void) {
     Serial.println("using MBED compiler and core");
 #endif
 
-    Serial.println("unique D5wX");
+    Serial.println("unique zH9p");
     Serial.println(REVISION_ITCF);
 }
 
