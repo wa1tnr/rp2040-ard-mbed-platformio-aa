@@ -1,6 +1,11 @@
 // n_monitor-cc_SKETCH.cpp
-// Sat 12 Feb 22:04:19 UTC 2022
-#define REVISION_ITCF "0.1.0-h.2 - new minimal alpha"
+
+// Fri 22 Dec 23:03:37 UTC 2023
+// rebuilt sketch using pio - seems to run
+
+// old: Sat 12 Feb 22:04:19 UTC 2022
+
+#define REVISION_ITCF "0.1.0-h.8 - new minimal alpha"
 #include "compatibility.h"
 
 // was: n_monitor-bb_SKETCH.cpp
@@ -219,7 +224,7 @@ void pre_serial(void) {
     Serial.println("using MBED compiler and core");
 #endif
 
-    Serial.println("unique zH9p");
+    Serial.println("unique zH9s");
     Serial.println(REVISION_ITCF);
 }
 
