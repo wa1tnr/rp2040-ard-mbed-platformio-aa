@@ -1,9 +1,11 @@
-0.1.2-pre-alpha READY.FOR.RELEASE
+0.1.0-pre-alpha READY.FOR.RELEASE
 
-last commit 2c0cd2b6b93a6f322a0500c7a88ebf701bc3ff65
+last commit 04eb735d08370b208c3f4085247d6ee1e79b78ae
 
-Date:   Sun Dec 26 19:11:01 UTC 2021
+Date:   Sat Dec 23 02:03:39 UTC 2023
 
-    last commit this section.
+    mention all: rp2040 ard mbed pio
+
+            modified:   README.md
 
     On branch dvlp-aa
