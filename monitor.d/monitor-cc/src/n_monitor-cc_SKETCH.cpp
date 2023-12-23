@@ -1,6 +1,10 @@
 // n_monitor-cc_SKETCH.cpp
 
-// Fri 22 Dec 23:03:37 UTC 2023
+// Sat 23 Dec 01:50:39 UTC 2023
+// now stripped repository new name
+//   git@github.com:wa1tnr/rp2040-ard-mbed-platformio-aa.git
+
+// old: Fri 22 Dec 23:03:37 UTC 2023
 // rebuilt sketch using pio - seems to run
 
 // old: Sat 12 Feb 22:04:19 UTC 2022
@@ -308,6 +312,12 @@ next:
         _reflash:
             Serial.print(" op_reflash");
             Serial.print(" delay 2 seconds..");
+#ifndef NOT_USING_MBED
+            Serial.println(" MBED! will not reflash!\n");
+            Serial.println("\n PROGRAM ENDS HERE:  ");
+            Serial.print(__DATE__); Serial.write(' ');
+            Serial.println(__TIME__);
+#endif
             delay(2000);
             reflash();
             goto next;
